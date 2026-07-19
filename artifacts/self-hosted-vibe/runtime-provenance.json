@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-07-19T07:30:00Z",
+  "dgx_host": "spark-de79",
+  "requested_model_id": "spark/leanstral-1.5-119b-a6b",
+  "router_served_model_id": "leanstral-1.5-119b-a6b",
+  "base_model_repo": "mistralai/Leanstral-1.5-119B-A6B",
+  "runtime_quant_repo": "Frosty40/Leanstral-1.5-119B-A6B-GGUF-NVFP4",
+  "runtime_file_name": "Leanstral-1.5-119B-A6B-NVFP4.gguf",
+  "runtime_file_size_bytes": 67135119264,
+  "quantization": "NVFP4 4-bit GGUF",
+  "engine": "llama.cpp llama-server",
+  "context_tokens": 131072,
+  "parallel_slots": 1,
+  "router_commit": "d57fc8b5ab036c6696180605e737fd174cf0bb88",
+  "verification": "Read-only SSH inspection of the live process argv, file stat, systemd service, /health and /v1/models."
+}
