@@ -2,16 +2,20 @@
 
 ## Executive finding
 
-The hosted Mistral endpoint and the local NVFP4 llama.cpp endpoint do not expose the same tool protocol.
+The original local NVFP4 deployment did not expose the same tool protocol as hosted Mistral. The
+model quant itself did not need replacement: the GGUF lacked `tokenizer.chat_template`, so
+llama.cpp selected an incompatible ChatML-style fallback. Loading Leanstral 1.5's official Mistral
+template, with one required Jinja macro-argument correction for tool results, fixed the deployment.
 
 Using the same non-streaming request, tool schema, prompt, sampling, and `tool_choice: auto`:
 
 | Endpoint | HTTP 200 | Native `tool_calls` | Textual pseudo-calls | Empty/plain responses |
 |---|---:|---:|---:|---:|
 | Mistral API, `labs-leanstral-1-5` | 10/10 | **10/10** | 0/10 | 0/10 |
-| Local NVFP4 through llama.cpp | 10/10 | **0/10** | 2/10 | 8/10 |
+| Local NVFP4, missing template (before) | 10/10 | **0/10** | 2/10 | 8/10 |
+| Local NVFP4, official template + fix (after) | 10/10 | **10/10** | 0/10 | 0/10 |
 
-One local pseudo-call was returned as assistant text rather than structured `tool_calls`:
+Before the fix, one local pseudo-call was returned as assistant text rather than structured `tool_calls`:
 
 ```text
 <|tool_call_begin|>preflight_echo
@@ -19,7 +23,25 @@ One local pseudo-call was returned as assistant text rather than structured `too
 <|tool_call_end|>
 ```
 
-Stock Vibe does not execute that text as a tool call. This explains the one-turn/no-tool behavior observed with the local quant. It does **not** show that hosted Leanstral lacks native tool support: the API result is consistently structured and works through Vibe.
+Stock Vibe does not execute that text as a tool call. After the template fix, stock Vibe received
+structured streaming calls and executed five calls across three turns, including four Lean LSP MCP
+calls and one shell call. The smoke run stopped at its configured turn limit; it did not fail in the
+transport or template layer.
+
+### Root cause and deployed fix
+
+The affected GGUF contained no `tokenizer.chat_template` metadata. The deployed llama.cpp command
+used `--jinja` but no `--chat-template-file`, causing a fallback prompt that trained the model toward
+ChatML-like textual markers. The repaired deployment:
+
+1. vendors Mistral's official Leanstral 1.5 `chat_template.jinja`;
+2. starts llama.cpp with `--chat-template-file .../leanstral-1.5.jinja`;
+3. stops injecting the legacy Leanstral-2603 ChatML stop sequences for Leanstral 1.5; and
+4. supplies the official template's missing `support_thinking=false` argument when rendering tool
+   results, which otherwise caused HTTP 500 on the second agent turn.
+
+The deployment patch is on
+[`Th0rgal/dgx-spark-router@fix/leanstral-15-official-tool-template`](https://github.com/Th0rgal/dgx-spark-router/tree/fix/leanstral-15-official-tool-template).
 
 ## Minimal protocol reproduction
 
@@ -82,12 +104,12 @@ Tasks:
 2. `openzeppelin/erc4626_virtual_offset_deposit/deposit_redeem_round_trip_bound`
 3. `uniswap_v2/pair_fee_adjusted_swap/swap_enforces_fee_adjusted_invariant`
 
-### Vibe 2.21.0
+### Vibe 2.21.0 (three-task results captured before the local fix)
 
 | Runtime | Score | Native calls executed | Tool successes/failures | Files changed | Tokens |
 |---|---:|---:|---:|---:|---:|
 | Hosted `labs-leanstral-1-5` | 0/3 | **60** | 58 / 2 | 1/3 | 1,201,624 |
-| Local NVFP4 llama.cpp | 0/3 | **0** | 0 / 0 | 0/3 | 9,586 |
+| Local NVFP4 llama.cpp, pre-fix | 0/3 | **0** | 0 / 0 | 0/3 | 9,586 |
 
 Hosted per-task behavior:
 
@@ -107,7 +129,10 @@ by
 
 Lean rejected it with `maximum recursion depth has been reached`.
 
-The local NVFP4 sessions ended after one assistant turn because Vibe received no native calls. They emitted zero edits and only four textual pseudo-calls across all three tasks.
+The pre-fix local NVFP4 sessions ended after one assistant turn because Vibe received no native
+calls. They emitted zero edits and only four textual pseudo-calls across all three tasks. Those
+three proof tasks have not yet been rerun after the transport fix; the post-fix stock-Vibe smoke did
+confirm multi-turn native tool execution.
 
 ### Standalone benchmark harness
 
@@ -134,21 +159,24 @@ Lean rejected it because `grind` left the core arithmetic goal. The 1inch and Un
 
 1. Hosted Leanstral emits valid native Mistral tool calls.
 2. Stock Vibe executes those calls and sustains multi-turn tool loops.
-3. The tested local NVFP4/llama.cpp stack does not convert Leanstral's textual tool sentinels into OpenAI `tool_calls`.
-4. Hosted Leanstral makes more operational progress than the local quant: 60 Vibe calls, 13 Lean MCP calls, and two concrete proof edits/submissions.
-5. Neither runtime solved any of the three tasks.
+3. The original local failure was caused by missing/wrong serving-template configuration, not by a
+   demonstrated defect in the NVFP4 weights.
+4. The repaired local route emits valid OpenAI-compatible `message.tool_calls` in 10/10 identical
+   external requests and sustains stock-Vibe tool-result turns.
+5. Hosted Leanstral made more operational progress than the pre-fix local run: 60 Vibe calls, 13
+   Lean MCP calls, and two concrete proof edits/submissions.
+6. Neither pre-fix runtime solved any of the three tasks.
 
 ### Not established
 
-1. The experiment does not isolate quantization from serving/parser differences.
-2. It does not show that the unquantized weights fail tool calling; the hosted API demonstrates the opposite.
-3. The panel is behavioral evidence on a frozen diagnostic benchmark commit, not a published current-main benchmark score.
-4. Large hosted Vibe usage reflects cumulative multi-turn session accounting and is not a measure of proof efficiency by itself.
+1. The fixed transport smoke does not establish post-fix proof quality on the three-task panel.
+2. The panel is behavioral evidence on a frozen diagnostic benchmark commit, not a published current-main benchmark score.
+3. Large hosted Vibe usage reflects cumulative multi-turn session accounting and is not a measure of proof efficiency by itself.
 
 ## Questions for Mistral
 
-1. Which exact local serving configuration reproduces the hosted parser and chat template for Leanstral 1.5?
-2. Are vLLM's `--tool-call-parser mistral`, `--enable-auto-tool-choice`, and `--reasoning-parser mistral` required for correct behavior, and is there an equivalent supported llama.cpp configuration?
+1. Can Mistral publish the supported llama.cpp template/parser configuration alongside the vLLM recommendation?
+2. Can Mistral correct the official template's missing `support_thinking` argument in the tool-result branch?
 3. Should Vibe detect raw `<|tool_call_begin|>` sentinels and report a parser mismatch instead of silently ending the agent turn?
 4. Is `labs-leanstral-1-5` the intended stable API model ID for external evaluation?
 5. Is the 300k–440k cumulative-token range per 12-turn Vibe task expected for the built-in Lean agent, or should the session be compacted earlier?
