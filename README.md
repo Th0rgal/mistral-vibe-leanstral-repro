@@ -35,7 +35,7 @@ Mistral Vibe reports:
 Error: API error from mistral-testing (model: labs-leanstral-1-5): Invalid API key. Please check your API key and try again.
 ```
 
-See [`REPORT.md`](REPORT.md) for timestamps, endpoints, CF-Ray identifiers, caveats, and the support request.
+See [`REPORT.md`](REPORT.md) for timestamps, endpoints, CF-Ray identifiers, caveats, and the support request. [`SUPPORT_MESSAGE.md`](SUPPORT_MESSAGE.md) is a concise message ready to send to Mistral.
 
 ## Reproduce the direct API result
 
