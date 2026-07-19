@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-19T17:19:13Z",
+  "runtime": {
+    "base_model": "mistralai/Leanstral-1.5-119B-A6B",
+    "quant": "Frosty40/Leanstral-1.5-119B-A6B-GGUF-NVFP4",
+    "format": "GGUF NVFP4",
+    "server": "llama.cpp b9294",
+    "router_fix_commit": "3ddf20f786f6e29f62ee54382256738652249860",
+    "router_fix_branch": "fix/leanstral-15-official-tool-template"
+  },
+  "stock_vibe_smoke": {
+    "vibe_version": "2.21.0",
+    "endpoint": "DGX external OpenAI-compatible route",
+    "streaming": true,
+    "configured_turn_limit": 3,
+    "assistant_tool_call_messages": 3,
+    "native_tool_calls": 5,
+    "executed_tool_results": 5,
+    "lean_lsp_mcp_calls": 4,
+    "shell_calls": 1,
+    "template_or_transport_error": false,
+    "termination": "configured turn limit reached",
+    "proof_quality_evaluated": false
+  },
+  "multi_turn_protocol_smoke": {
+    "direct_llama_server": {
+      "sequences": 3,
+      "first_turn_native_tool_calls": 3,
+      "tool_result_followups_http_200": 3,
+      "template_errors": 0
+    },
+    "router": {
+      "sequences": 3,
+      "first_turn_native_tool_calls": 3,
+      "tool_result_followups_http_200": 3,
+      "template_errors": 0
+    }
+  },
+  "credential_material_included": false,
+  "private_endpoint_included": false,
+  "private_filesystem_paths_included": false
+}
