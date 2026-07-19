@@ -18,6 +18,14 @@ Immediately before invalidation, `labs-leanstral-1-5` returned 200 with rate-lim
 
 This evidence rules out ordinary API rate limiting and strongly indicates a credential-lifecycle event close to a one-hour TTL. Mistral Admin confirms that the replacement key is type **Studio**, expiration **Never**, with the default **Shared connectors only** scope. Per Mistral's documentation, that scope controls Connector access only and does not restrict ordinary model/chat API calls. The Vibe-plan-key explanation therefore does not apply: the leading diagnosis is an auth control-plane/data-plane inconsistency, erroneous internal expiry, or hourly Workspace/Organization entitlement revalidation. Only Mistral can inspect the key's internal issue/expiry state and explicit revocation reason.
 
+## Second Studio/Never key: controlled 429 followed by persistent 401
+
+A subsequent Studio/Never key falsified a fixed one-hour TTL. A controlled 320-request Leanstral burst hit the advertised 300 RPM boundary: 298 requests returned 200, 22 returned explicit `429 rate_limited`, and a request after 70 seconds recovered to 200. This demonstrates the ordinary rate-limit response and recovery path.
+
+The same key later returned its last 200 at `13:05:19.689901Z` and first persistent 401 at `13:05:24.738584Z`, only 2,195.477975 seconds (36 minutes 35.478 seconds) after the secret-manager revision. The benchmark namespace changed within 0.253 seconds; a fresh secret-manager read returned 401 for both `/models` and chat. Controlled usage before invalidation totaled 7,986 API-reported tokens and 1,107 successful requests.
+
+This later result rules out both ordinary rate limiting and a deterministic one-hour expiration. Plausible server-side causes now include delayed anti-abuse revocation after the RPM burst, an undocumented per-key/Labs evaluation request threshold, or Workspace/Organization entitlement state inconsistent between the Admin control plane and API auth data plane.
+
 ## Customer identity
 
 - Account ID: `76a1b995-3912-40f0-8ab5-a25ce3341e1f`
