@@ -1,89 +1,71 @@
-# Message ready to send to Mistral support
+# Message ready to send to Mistral
 
-**Subject:** Recurring HTTP 401 from API keys and Mistral Vibe (account `76a1b995-3912-40f0-8ab5-a25ce3341e1f`)
+**Subject:** Leanstral 1.5 tool-calling comparison, local parser mismatch, and request for an evaluation key
 
 Hello Mistral team,
 
-I repeatedly lose access to both Mistral Vibe and the direct API because an existing API key starts returning HTTP 401. Creating a new key restores access, but the problem later comes back.
+I ran a controlled comparison between:
 
-Account and organization:
+- hosted `labs-leanstral-1-5` through the Mistral API;
+- the same model family self-hosted as `Frosty40/Leanstral-1.5-119B-A6B-GGUF-NVFP4` through llama.cpp on a DGX Spark;
+- Mistral Vibe 2.21.0 and a separate Lean MCP benchmark harness;
+- three identical public Lean tasks at benchmark commit `2b27270b66a1fc248e4ff594ba323698648ef02c`.
 
-- Account ID: `76a1b995-3912-40f0-8ab5-a25ce3341e1f`
-- Organization ID: `f1cd0a1c-0189-4136-b6b2-af4bec85a0bc`
-- My Vibe subscription has ended.
+The minimal direct protocol test is particularly clear. I sent the same non-streaming request ten times to each endpoint, with the same prompt, tool schema, `tool_choice: auto`, temperature 1, and top-p 1:
 
-I now have a precise reproduction of the key becoming invalid. After rotating `MISTRAL_API_KEY` on 2026-07-19:
+| Endpoint | HTTP 200 | Native `tool_calls` | Textual pseudo-calls | Empty/plain responses |
+|---|---:|---:|---:|---:|
+| Mistral API | 10/10 | **10/10** | 0/10 | 0/10 |
+| Local NVFP4 llama.cpp | 10/10 | **0/10** | 2/10 | 8/10 |
 
-- `08:09:12Z`: `GET /v1/models` returned 200.
-- `08:09:12Z`: `mistral-small-latest` returned a successful completion.
-- `08:09:13Z`: `labs-leanstral-1-5` was authenticated and resolved; my deliberately greedy request reached normal model validation and returned `top_p must be 1 when using greedy sampling`.
-- Around `08:22Z`: hosted Leanstral benchmark canaries completed authenticated provider requests.
-- `08:28:09Z`: correctly shaped hosted Leanstral requests returned 401.
-- `08:28:17Z`: `/models`, `mistral-small-latest`, and both Leanstral IDs all returned the same 401.
-
-The last precisely timestamped successful Vibe session ended at `08:22:13.813777Z`; the first 401 carries the server timestamp `08:28:08Z`. Therefore the transition occurred within a 5-minute-54.186-second observation gap. The Vibe session accounted for 53,276 LLM tokens (52,214 prompt + 1,062 completion), and a subsequent five-request harness preflight accounted for another 696 tokens. The two durable canaries therefore account for at least 53,972 tokens before failure, plus earlier successful direct probes whose usage was not retained.
-
-I cannot conclude that 53,972 tokens triggered the invalidation: there was no probe exactly at the transition, and the API returned a generic authentication 401 rather than a quota/rate-limit error. Please correlate the timestamps and CF-Ray IDs with your internal key event logs.
-
-The final response was:
+The local endpoint sometimes returned raw sentinel text in assistant `content`:
 
 ```text
-HTTP 401
-{"detail":"Unauthorized"}
+<|tool_call_begin|>preflight_echo
+<|tool_call_argument_begin|>value: ok
+<|tool_call_end|>
 ```
 
-This is a newly created key changing from valid to rejected in less than 19 minutes, without a local credential configuration change. The `/models` CF-Ray identifiers for the successful and rejected requests are respectively:
+Stock Vibe does not execute this as a tool call. The hosted API consistently returns structured `tool_calls`, so I do not think this is a general inability of the Leanstral weights to call tools. It looks like a local chat-template/parser interoperability problem.
 
-```text
-a1d83e1c7adff78c-HEL
-a1d85a0ef8cdf78c-HEL
-```
+On the three Lean tasks:
 
-The model catalog returned during the valid window listed `labs-leanstral-1-5` and `labs-leanstral-1-5-1` as aliases of the same model, with function calling and reasoning enabled. The unprefixed `leanstral-1-5` returned `invalid_model`.
+| Lane | Score | Tool behavior | Code progress | Tokens |
+|---|---:|---|---|---:|
+| Hosted + Vibe 2.21.0 | 0/3 | 60 native calls executed | one edit | 1,201,624 |
+| NVFP4 llama.cpp + Vibe | 0/3 | zero native calls; four textual pseudo-calls | no edits | 9,586 |
+| Hosted standalone | 0/3 | 13 Lean MCP calls | one submitted proof | 196,415 |
+| NVFP4 standalone fallback | 0/3 | six Lean MCP calls | no submissions | 74,748 |
 
-Earlier the same day, I also reproduced the original failure with two separately provisioned credentials:
+The hosted model therefore made much more operational progress, but it did not solve the panel. Its two concrete proof attempts failed:
 
-1. `MISTRAL_API_KEY`
-2. a credential associated with my former Vibe subscription, tested separately as the Bearer credential
+- ERC-4626: `unfold deposit_redeem_round_trip_bound_spec; grind`; `grind` left the arithmetic goal.
+- Uniswap: `simp only [grind_norm]; exact hK`; Lean hit the maximum recursion depth.
 
-Both produced the same 401 result for every request below:
+The full reproduction, exact request shape, scripts, prompts, tool counts, verifier errors, model provenance, and sanitized evidence are here:
 
-- `GET https://api.mistral.ai/v1/models`
-- `POST /v1/chat/completions` with `mistral-small-latest`
-- `POST /v1/chat/completions` with `leanstral-1-5`
-- `POST /v1/chat/completions` with `labs-leanstral-1-5`
+- Repository: https://github.com/Th0rgal/mistral-vibe-leanstral-repro
+- Comparison: https://github.com/Th0rgal/mistral-vibe-leanstral-repro/blob/main/COMPARISON.md
+- Evidence: https://github.com/Th0rgal/mistral-vibe-leanstral-repro/tree/evidence/2026-07-19/artifacts
 
-Mistral Vibe 2.21.0 also exits with:
+Could you help clarify:
 
-```text
-Error: API error from mistral-testing (model: labs-leanstral-1-5): Invalid API key. Please check your API key and try again.
-```
+1. Which exact local serving configuration reproduces the hosted Leanstral parser and chat template?
+2. Are vLLM's `--tool-call-parser mistral`, `--enable-auto-tool-choice`, and `--reasoning-parser mistral` required? Is there a supported llama.cpp equivalent?
+3. Should Vibe detect raw `<|tool_call_begin|>` sentinels and report a parser mismatch rather than ending the turn without executing anything?
+4. Is `labs-leanstral-1-5` the intended stable API model ID for evaluation?
+5. Is 300k–440k cumulative tokens per 12-turn Vibe task expected for the built-in Lean agent, or should it compact earlier?
 
-Its debug log records another 401 on:
+I would also like to run repeated seeded panels rather than a single three-task sample. The observed concurrent peak exceeded 500k tokens/minute, and the final comparison alone used about 1.4 million hosted tokens. Could you provide a temporary Leanstral-specific evaluation key with approximately:
 
-```text
-https://api.mistral.ai/v1/connectors/bootstrap?include_auth_actionable_connectors=true
-```
+- at least 1 million tokens/minute;
+- at least 60 requests/minute;
+- stable access to `labs-leanstral-1-5` for several days;
+- enough total quota for repeated 3-task and larger benchmark panels?
 
-The general model failed identically, so those captured failures occurred before Leanstral model resolution or Labs entitlement checks.
+Separately, I have seen API keys start returning generic 401 responses after initially working. One rotated key moved from successful requests to 401 within a less-than-six-minute observation gap; another replacement key remained valid after more than 2 million tokens, so this was not a deterministic token cutoff. If useful, I can send the timestamps and CF-Ray IDs privately for correlation with your key lifecycle logs. My account ID is `76a1b995-3912-40f0-8ab5-a25ce3341e1f` and organization ID is `f1cd0a1c-0189-4136-b6b2-af4bec85a0bc`.
 
-I published a minimal reproducer, timestamps, CF-Ray IDs, sanitized API artifacts, and Vibe logs here:
-
-- Reproducer: https://github.com/Th0rgal/mistral-vibe-leanstral-repro
-- Full report: https://github.com/Th0rgal/mistral-vibe-leanstral-repro/blob/main/REPORT.md
-- Sanitized evidence: https://github.com/Th0rgal/mistral-vibe-leanstral-repro/tree/evidence/2026-07-19/artifacts
-
-No credential value, prefix, hash, or length is included.
-
-Could you please check:
-
-1. key creation, revocation, expiry, and organization-membership events for this account, especially between `08:09:12Z` and `08:28:09Z`;
-2. why this newly rotated key changed from accepted to 401 in less than 19 minutes;
-3. whether ending a Vibe subscription can invalidate API keys or organization access;
-4. the intended credential flow for Vibe subscriptions, since Vibe 2.21.0 reads `MISTRAL_API_KEY`;
-5. whether `labs-leanstral-1-5` is the intended API ID, since it was listed and resolved while `leanstral-1-5` returned `invalid_model`.
-
-Because this has been difficult to rely on, I moved the Lean workload to a self-hosted Leanstral 1.5 on a DGX Spark. It is an NVFP4 4-bit quant because the machine has 128 GB of unified memory. I would prefer to use the hosted endpoint if the recurring authentication problem can be fixed.
+No credential value, prefix, hash, length, authorization header, private endpoint, or local filesystem identity is included in the repository.
 
 Thanks,
 Thomas

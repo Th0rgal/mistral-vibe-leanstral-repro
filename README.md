@@ -1,91 +1,53 @@
-# Mistral Vibe / Leanstral authentication and tool-calling reproductions
+# Leanstral 1.5 tool calling: hosted API vs local NVFP4
 
-Minimal, sanitized reproductions for two separate observations:
+Minimal, sanitized reproduction of two related behaviors:
 
-1. **Authentication:** two independently provisioned credentials returned the same HTTP 401. A newly rotated `MISTRAL_API_KEY` then authenticated successfully, but the same provisioned key was back to the identical 401 less than 19 minutes later.
-2. **Local Leanstral interoperability:** on three public Lean benchmark tasks, a self-hosted NVFP4 Leanstral 1.5 served by llama.cpp emits tool-shaped text but no native `tool_calls`; stock Vibe therefore executes no tool and exits after one assistant turn.
+1. **Protocol interoperability:** the hosted Mistral API returns structured native `tool_calls`, while the tested NVFP4 Leanstral 1.5 under llama.cpp returns empty responses or raw tool sentinel text in assistant `content`.
+2. **Agent outcome:** hosted Leanstral executes multi-turn tool loops through Vibe and Lean MCP, but still scores 0/3 on the frozen Lean panel. The local NVFP4 route also scores 0/3 and makes less progress because stock Vibe cannot execute its textual pseudo-calls.
 
-These must not be conflated. The second observation uses a 4-bit local quant and is **not evidence about Mistral's hosted Leanstral endpoint**.
+Start with [`COMPARISON.md`](COMPARISON.md). It contains the exact request shape, 10-attempt direct probe, three-task results, proof attempts, verifier errors, interpretation, and questions for Mistral.
 
-## Identity for Mistral support
+Versions and provenance:
 
-- Account ID: `76a1b995-3912-40f0-8ab5-a25ce3341e1f`
-- Organization ID: `f1cd0a1c-0189-4136-b6b2-af4bec85a0bc`
-- Vibe version: `2.21.0`
-- Test date: `2026-07-19` UTC
+- Hosted model: `labs-leanstral-1-5`
+- Local base: `mistralai/Leanstral-1.5-119B-A6B`
+- Local quant: `Frosty40/Leanstral-1.5-119B-A6B-GGUF-NVFP4`
+- Local runtime: llama.cpp / GGUF NVFP4 4-bit
+- Vibe: `2.21.0`
+- Benchmark: `lfglabs-dev/ethereum-verification-benchmark@2b27270b66a1fc248e4ff594ba323698648ef02c`
+- Lean: `4.24.0`; `lean-lsp-mcp`: `0.28.0`
 
-No API key, subscription secret, token prefix, hash, or credential length is committed.
-
-## Confirmed authentication result
-
-### Newly rotated key: valid, then rejected within 19 minutes
-
-| UTC | Probe | Result |
-|---|---|---|
-| `08:09:12` | `GET /v1/models` | 200; catalog returned |
-| `08:09:12` | `mistral-small-latest` completion | 200; `OK` |
-| `08:09:13` | `leanstral-1-5` | 400 `invalid_model` |
-| `08:09:13` | `labs-leanstral-1-5` with greedy sampling | 400 `top_p must be 1 when using greedy sampling` — authentication and model resolution succeeded |
-| `08:22` | hosted Leanstral Vibe/harness attempts | authenticated provider requests completed |
-| `08:28:09` | correctly shaped Leanstral and tool probes | 401 `Unauthorized` |
-| `08:28:17` | `/models`, general model, and both Leanstral IDs | 401 `Unauthorized` for all four |
-
-The live catalog identifies `labs-leanstral-1-5` and `labs-leanstral-1-5-1` as aliases of the same hosted model, with function calling and reasoning enabled. `leanstral-1-5` is not a valid API model ID for this account.
-
-This short valid-to-invalid transition is stronger evidence than the original static 401 snapshot: the rotated key was accepted, used for real provider calls, and then rejected without a local configuration change.
-
-### Original simultaneous credential snapshot
-
-| Credential source | `GET /v1/models` | `mistral-small-latest` | `leanstral-1-5` | `labs-leanstral-1-5` |
-|---|---:|---:|---:|---:|
-| `MISTRAL_API_KEY` | 401 | 401 | 401 | 401 |
-| `MISTRAL_VIBE_SECRET` used as Bearer credential | 401 | 401 | 401 | 401 |
-
-Every response body was exactly:
-
-```json
-{"detail":"Unauthorized"}
-```
-
-Mistral Vibe reports:
-
-```text
-Error: API error from mistral-testing (model: labs-leanstral-1-5): Invalid API key. Please check your API key and try again.
-```
+No API key, subscription secret, token prefix, hash, credential length, private endpoint, or private filesystem identity is committed.
 
 ## Hosted-vs-NVFP4 comparison status
 
-There is **no valid three-task hosted score yet**. Two hosted canaries authenticated before the key failed again:
+The complete three-task comparison ran after a second key rotation. Both hosted and self-hosted lanes scored 0/3, but their behavior differed substantially:
 
-- Vibe reached the hosted model, but the experiment's 50,000-token session cap was below Vibe's 53,276-token initialized session and stopped before tool execution. This attempt is `INFRA_INVALID`, not a model failure.
-- The standalone harness completed five authenticated preflight requests (696 tokens) but its streaming protocol probe did not observe a tool call. A separate correctly shaped direct request did observe one native tool call. The corrected non-streaming retry could not run after the key returned to 401.
+| Lane | Score | Native/executed tools | Files changed or submitted | Tokens |
+|---|---:|---:|---:|---:|
+| Hosted Leanstral + Vibe 2.21.0 | 0/3 | 60 / 60 | 1/3 | 1,201,624 |
+| NVFP4 llama.cpp + Vibe 2.21.0 | 0/3 | 0 / 0 | 0/3 | 9,586 |
+| Hosted Leanstral standalone | 0/3 | 13 Lean MCP calls | 1/3 | 196,415 |
+| NVFP4 standalone JSON fallback | 0/3 | 6 Lean MCP calls | 0/3 | 74,748 |
 
-The corrected retry configuration is ready: a 200,000-token Vibe session budget and non-streaming standalone preflight. It requires a key that remains valid for the duration of the three-task run.
+Hosted Leanstral's native Mistral tool protocol works: it executed multi-turn tool loops, while the NVFP4 llama.cpp route emitted only textual pseudo-calls under stock Vibe. Hosted Leanstral produced two concrete proof attempts, but neither compiled: an ERC-4626 `grind` attempt left an arithmetic goal, and a Uniswap `simp only [grind_norm]; exact hK` attempt hit Lean's recursion-depth limit.
 
-See [`REPORT.md`](REPORT.md) for timestamps, endpoints, CF-Ray identifiers, caveats, and the support request. [`SUPPORT_MESSAGE.md`](SUPPORT_MESSAGE.md) is a concise message ready to send to Mistral.
+See [`COMPARISON.md`](COMPARISON.md) for the detailed evidence. [`SUPPORT_MESSAGE.md`](SUPPORT_MESSAGE.md) is a concise message ready to send to Mistral.
 
-## Reproduce the direct API result
+## Reproduce the tool-protocol difference
 
 ```bash
 export MISTRAL_API_KEY='replace-locally; never commit'
-python3 scripts/probe_api.py --credential-env MISTRAL_API_KEY --output /tmp/mistral-api-key.json
-
-# Optional historical Vibe subscription credential check:
-export MISTRAL_VIBE_SECRET='replace-locally; never commit'
-python3 scripts/probe_api.py --credential-env MISTRAL_VIBE_SECRET --output /tmp/mistral-vibe-secret.json
+python3 scripts/probe_tool_calling.py \
+  --base-url https://api.mistral.ai/v1 \
+  --endpoint-label mistral-api \
+  --api-key-env MISTRAL_API_KEY \
+  --model labs-leanstral-1-5 \
+  --attempts 10 \
+  --output /tmp/tool-probe-hosted.json
 ```
 
-The probe uses only Python's standard library and never writes the credential. It records a small allow-list of response headers and a sanitized body.
-
-## Reproduce through Vibe 2.21.0
-
-```bash
-uv tool install --force 'mistral-vibe==2.21.0'
-export MISTRAL_API_KEY='replace-locally; never commit'
-./scripts/run_vibe_auth_repro.sh
-```
-
-The script uses an isolated `VIBE_HOME`, enables the built-in `lean` profile, disables telemetry/update checks, and writes only sanitized output under `reproduction-logs/`.
+The probe uses only Python's standard library, records no credential or private endpoint, and emits a normalized artifact. Run the same command against any local OpenAI-compatible endpoint using `--base-url-env`, its API-key environment variable, and its exposed model ID.
 
 ## Three public Lean task examples
 
