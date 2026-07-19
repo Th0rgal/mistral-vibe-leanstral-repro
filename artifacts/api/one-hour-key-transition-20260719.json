@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "date": "2026-07-19",
+  "credential_material_included": false,
+  "secret_manager_revision_utc": "2026-07-19T11:10:21.332866Z",
+  "fixed_key_host": {
+    "last_200": {
+      "timestamp_utc": "2026-07-19T12:09:48.407374Z",
+      "server_date_utc": "2026-07-19T12:09:48Z",
+      "cf_ray": "a1d99e8aacc85288-HEL"
+    },
+    "first_401": {
+      "timestamp_utc": "2026-07-19T12:10:14.172365Z",
+      "server_date_utc": "2026-07-19T12:10:14Z",
+      "cf_ray": "a1d99f2e586a8dab-HEL",
+      "body": {"detail": "Unauthorized"}
+    },
+    "transition_window_seconds": 25.764991,
+    "secret_revision_to_first_401_seconds": 3592.839499
+  },
+  "fixed_key_benchmark_namespace": {
+    "last_200": {
+      "timestamp_utc": "2026-07-19T12:09:49.156194Z",
+      "cf_ray": "a1d99e8f2c3c1579-HEL"
+    },
+    "first_401": {
+      "timestamp_utc": "2026-07-19T12:10:15.210414Z",
+      "cf_ray": "a1d99f34debf15dc-HEL",
+      "body": {"detail": "Unauthorized"}
+    }
+  },
+  "fresh_bitwarden_read": {
+    "last_200": {
+      "timestamp_utc": "2026-07-19T12:09:40.320332Z",
+      "cf_ray": "a1d99e581ed85894-HEL"
+    },
+    "first_401": {
+      "timestamp_utc": "2026-07-19T12:10:44.047700Z",
+      "models_cf_ray": "a1d99fe91e3e15dc-HEL",
+      "chat_cf_ray": "a1d99fe96ced75f5-HEL",
+      "models_status": 401,
+      "chat_status": 401,
+      "body": {"detail": "Unauthorized"}
+    }
+  },
+  "network_control": {
+    "host_and_benchmark_public_egress_equal": true,
+    "cloudflare_pop": "HEL"
+  },
+  "pre_invalidation_rate_limits": {
+    "labs-leanstral-1-5": {
+      "status": 200,
+      "observed_at_utc": "2026-07-19T12:01:43Z",
+      "request_limit_per_minute": 300,
+      "request_remaining": 299,
+      "token_limit_per_minute": 30000000,
+      "token_remaining": 29999978,
+      "query_cost_tokens": 22
+    },
+    "mistral-small-latest": {
+      "status": 200,
+      "observed_at_utc": "2026-07-19T12:01:21Z",
+      "request_limit_per_minute": 1000,
+      "token_limit_per_minute": 500000,
+      "controlled_concurrent_requests": 8,
+      "controlled_http_200": 8,
+      "controlled_total_tokens": 160
+    }
+  },
+  "post_invalidation_headers": {
+    "retry_after_present": false,
+    "rate_limit_headers_present": false
+  },
+  "local_secret_controls": {
+    "fixed_in_memory_and_fresh_secret_source_both_failed": true,
+    "bitwarden_secret_name_count": 1,
+    "current_key_exact_match_scan": {
+      "files_scanned": 515262,
+      "exact_hits": 0,
+      "large_or_unreadable_files_skipped": 218
+    }
+  },
+  "classification": {
+    "ordinary_rate_limit": "ruled_out",
+    "token_key_exhaustion": "strongly_disfavored",
+    "account_wide_ban": "strongly_disfavored",
+    "client_header_or_network_path": "ruled_out",
+    "credential_lifecycle_or_expiry": "strongly_supported",
+    "vibe_plan_key_or_short_lived_token": "leading_hypothesis",
+    "server_side_confirmation_required": true
+  }
+}
