@@ -21,6 +21,10 @@ I now have a precise reproduction of the key becoming invalid. After rotating `M
 - `08:28:09Z`: correctly shaped hosted Leanstral requests returned 401.
 - `08:28:17Z`: `/models`, `mistral-small-latest`, and both Leanstral IDs all returned the same 401.
 
+The last precisely timestamped successful Vibe session ended at `08:22:13.813777Z`; the first 401 carries the server timestamp `08:28:08Z`. Therefore the transition occurred within a 5-minute-54.186-second observation gap. The Vibe session accounted for 53,276 LLM tokens (52,214 prompt + 1,062 completion), and a subsequent five-request harness preflight accounted for another 696 tokens. The two durable canaries therefore account for at least 53,972 tokens before failure, plus earlier successful direct probes whose usage was not retained.
+
+I cannot conclude that 53,972 tokens triggered the invalidation: there was no probe exactly at the transition, and the API returned a generic authentication 401 rather than a quota/rate-limit error. Please correlate the timestamps and CF-Ray IDs with your internal key event logs.
+
 The final response was:
 
 ```text

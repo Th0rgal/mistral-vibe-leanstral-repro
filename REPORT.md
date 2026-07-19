@@ -48,10 +48,14 @@ Each is an alias of the other, with `function_calling: true`, `reasoning: true`,
 
 Two hosted benchmark canaries then authenticated:
 
-- Vibe 2.21.0 reached `labs-leanstral-1-5` and reported a 53,276-token initialized session. The experiment had an incorrect 50,000-token client cap, so it stopped before tool execution. This attempt is `INFRA_INVALID`, not a hosted-model score.
-- The standalone harness completed five authenticated requests and accounted for 696 tokens. Chat completion, model selection, and usage checks passed. Its streaming protocol probe did not observe a native tool call, so the harness correctly stopped before scoring. A separate correctly shaped direct request had observed a native tool call earlier in the valid window.
+- Vibe 2.21.0 ran from `08:22:01.124462Z` to `08:22:13.813777Z`. Its provider accounting recorded 52,214 prompt tokens and 1,062 completion tokens, totaling 53,276. The experiment had an incorrect 50,000-token client cap, so it stopped before tool execution. This attempt is `INFRA_INVALID`, not a hosted-model score.
+- The standalone harness then completed five authenticated requests and accounted for another 696 tokens: 328 prompt and 368 completion. Chat completion, model selection, and usage checks passed. Its streaming protocol probe did not observe a native tool call, so the harness correctly stopped before scoring. A separate correctly shaped direct request had observed a native tool call earlier in the valid window.
 
-At `08:28:09Z`, three correctly shaped hosted Leanstral requests all returned 401. At `08:28:17Z`, a full recheck returned the same response for `/models`, `mistral-small-latest`, `leanstral-1-5`, and `labs-leanstral-1-5`:
+These two durable canaries account for 53,972 LLM tokens before failure, excluding earlier successful direct probes whose usage counters were not retained. This is a lower bound on observed consumption, not evidence of a token quota.
+
+The first 401 has a server timestamp of `08:28:08Z`. This places the transition within 354.186 seconds—5 minutes 54.186 seconds—after the last precisely timestamped successful Vibe session. The standalone preflight made five successful requests later in the same period and ended at approximately `08:22:27.890Z`, but it did not persist per-request timestamps; it likely narrows the gap to about 5 minutes 40 seconds, but that is not a hard bound.
+
+At `08:28:09Z`, all three correctly shaped hosted Leanstral probes had returned 401. At `08:28:17Z`, a full recheck returned the same response for `/models`, `mistral-small-latest`, `leanstral-1-5`, and `labs-leanstral-1-5`:
 
 ```text
 HTTP 401
@@ -61,6 +65,8 @@ HTTP 401
 The `/models` recheck CF-Ray was `a1d85a0ef8cdf78c-HEL`; the three completion CF-Rays were `a1d85a0f3eec2945-HEL`, `a1d85a0f9f51e39a-HEL`, and `a1d85a0fe891a0a8-HEL`.
 
 No local credential configuration changed between the successful and rejected windows. The corrected retries—a 200,000-token Vibe budget and non-streaming standalone transport—are prepared but cannot run while the key is rejected.
+
+The evidence does not identify a token-triggered cutoff. A token threshold near 54k is only one hypothesis; there was no request exactly at the transition, earlier direct-probe usage is missing, and a quota would normally be expected to produce a quota/rate-limit response rather than a generic 401. Mistral's internal key event logs are required to distinguish revocation, expiry, organization state, policy, or another authentication-layer cause.
 
 ## Original direct API reproduction
 
