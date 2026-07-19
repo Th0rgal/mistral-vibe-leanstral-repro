@@ -82,7 +82,7 @@ Then, once hosted authentication works:
 ./scripts/run_vibe_task.sh uniswap-v2
 ```
 
-The exact prompts and sanitized observed model messages are under `examples/`. Full sanitized evidence is published on branch `evidence/2026-07-19`.
+The exact prompts and sanitized observed model messages are under `examples/`. Full sanitized evidence is published on branch [`evidence/2026-07-19`](https://github.com/Th0rgal/mistral-vibe-leanstral-repro/tree/evidence/2026-07-19/artifacts).
 
 ## Local model used for the interoperability traces
 
