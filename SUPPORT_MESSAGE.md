@@ -36,12 +36,16 @@ After that one-line correction and removal of legacy ChatML stops for Leanstral 
 | Textual pseudo-calls | 0/10 |
 | Direct llama.cpp tool-result follow-ups | 3/3 HTTP 200 |
 | Router tool-result follow-ups | 3/3 HTTP 200 |
-| Stock Vibe benchmark canary | 22 native calls and 22 executed results over 12 turns |
+| Stock Vibe three-task panel | 63 native calls and 63 executed results; zero pseudo-calls |
 
-The canary reached the public verifier correctly but scored 0/1 because the model never edited the
-proof placeholder. That is a model/agent outcome, not a transport failure. The earlier hosted panel
-also scored 0/3 despite 60 native Vibe calls; its concrete ERC-4626 and Uniswap proof attempts did
-not compile. I am treating proof quality separately from this deterministic template defect.
+The repaired local lane reached the public verifier correctly on all three tasks but scored 0/3:
+it made no proof edits and 12 of its tool results were errors, mostly because it targeted nonexistent
+or fabricated filesystem paths despite receiving the exact isolated workspace path. All agent
+processes exited normally and all artifacts were complete, so these are genuine model/agent failures,
+not transport failures. The earlier hosted panel also scored 0/3 despite 60 native Vibe calls; its
+concrete ERC-4626 and Uniswap proof attempts did not compile. I am treating proof quality separately
+from the deterministic template defect, and I cannot attribute the local path behavior to NVFP4
+without a same-runtime quantization ablation.
 
 The full reproduction, exact request shape, scripts, prompts, tool counts, verifier errors, model provenance, and sanitized evidence are here:
 
