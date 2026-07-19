@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "date": "2026-07-19",
+  "credential_material_included": false,
+  "admin_control_plane": {
+    "type": "Studio",
+    "expiration": "Never",
+    "connector_scope": "Shared connectors only"
+  },
+  "secret_manager_revision_utc": "2026-07-19T12:28:49.260609300Z",
+  "fixed_key_host": {
+    "last_200_utc": "2026-07-19T13:05:19.689901Z",
+    "first_401_utc": "2026-07-19T13:05:24.738584Z",
+    "first_401_server_date_utc": "2026-07-19T13:05:24Z",
+    "first_401_cf_ray_models": "a1d9f001681a15dc-HEL",
+    "first_401_cf_ray_chat": "a1d9f001ba90bba2-HEL"
+  },
+  "fixed_key_benchmark_namespace": {
+    "first_401_utc": "2026-07-19T13:05:24.485833Z",
+    "first_401_cf_ray_models": "a1d9efffdfaa6999-HEL",
+    "first_401_cf_ray_chat": "a1d9f0002882e756-HEL"
+  },
+  "fresh_secret_read": {
+    "models_status": 401,
+    "chat_status": 401,
+    "observed_at_utc": "2026-07-19T13:05:38.655797Z",
+    "models_cf_ray": "a1d9f05858d78d8e-HEL",
+    "chat_cf_ray": "a1d9f058acce1bf4-HEL"
+  },
+  "timing": {
+    "secret_revision_to_first_host_401_seconds": 2195.477975,
+    "last_host_200_to_first_host_401_seconds": 5.048683,
+    "host_vs_namespace_first_401_delta_seconds": 0.252751
+  },
+  "controlled_usage_before_invalidation": {
+    "api_reported_total_tokens": 7986,
+    "successful_requests": 1107,
+    "http_429_responses": 22
+  },
+  "controlled_rate_limit": {
+    "model": "labs-leanstral-1-5",
+    "started_at_utc": "2026-07-19T12:33:32Z",
+    "burst_requests": 320,
+    "concurrency": 40,
+    "burst_elapsed_seconds": 9.764839352108538,
+    "http_200": 298,
+    "http_429": 22,
+    "first_429_utc": "2026-07-19T12:33:42.100091Z",
+    "first_429_cf_ray": "a1d9c18dad428dab-HEL",
+    "first_429_error": {
+      "code": "1300",
+      "type": "rate_limited",
+      "message": "Rate limit exceeded"
+    },
+    "request_limit_per_minute": 300,
+    "remaining_requests_at_first_429": 0,
+    "recovery_wait_seconds": 70,
+    "recovery_status": 200,
+    "recovery_utc": "2026-07-19T12:34:59.481881Z",
+    "recovery_cf_ray": "a1d9c3708ce9d4fd-HEL",
+    "recovery_remaining_requests": 297,
+    "recovery_token_limit_per_minute": 30000000,
+    "recovery_remaining_tokens": 29999982
+  },
+  "classification": {
+    "ordinary_rate_limit": "ruled_out_as_cause_of_persistent_401",
+    "fixed_one_hour_ttl": "falsified_by_second_run",
+    "configured_expiration": "ruled_out_by_admin_control_plane",
+    "local_secret_or_network_path": "ruled_out",
+    "server_side_revocation_or_auth_entitlement_bug": "strongly_supported",
+    "delayed_anti_abuse_revocation_after_rate_burst": "plausible_unconfirmed",
+    "undocumented_per_key_request_threshold": "plausible_unconfirmed"
+  },
+  "support_questions": [
+    "What exact server-side event or revocation reason invalidated this Studio/Never key at 13:05:24 UTC?",
+    "Did an anti-abuse system react to the earlier controlled 300 RPM rate-limit event?",
+    "Is there an undocumented per-key total request or Labs evaluation limit?",
+    "Why did authentication return persistent 401 rather than a documented 429 quota response?",
+    "Did the Admin control plane continue to list the key as active Studio/Never after the API data plane rejected it?"
+  ]
+}
