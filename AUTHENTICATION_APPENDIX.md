@@ -2,6 +2,22 @@
 
 > This is preserved as supporting context, not the repository's primary report. For the reproducible Leanstral tool-calling and hosted-vs-NVFP4 comparison, start with [`COMPARISON.md`](COMPARISON.md). Authentication-lifecycle details are summarized only in the direct support message.
 
+## Instrumented approximately one-hour transition
+
+A later replacement key was monitored using two long-lived processes that retained the exact credential in memory, plus a third path that re-read Bitwarden on every tick:
+
+| Path | Last 200 | First 401 | CF-Ray transition |
+|---|---|---|---|
+| Host, fixed in-memory credential | `12:09:48.407374Z` | `12:10:14.172365Z` | `a1d99e8aacc85288-HEL` → `a1d99f2e586a8dab-HEL` |
+| Benchmark namespace, same fixed credential | `12:09:49.156194Z` | `12:10:15.210414Z` | `a1d99e8f2c3c1579-HEL` → `a1d99f34debf15dc-HEL` |
+| Fresh Bitwarden read | `12:09:40.320332Z` | `12:10:44.047700Z` | `a1d99e581ed85894-HEL` → `a1d99fe91e3e15dc-HEL` |
+
+The Bitwarden secret revision was recorded at `11:10:21.332866Z`. The first fixed-key 401 followed 3,592.839499 seconds later—59 minutes 52.84 seconds. The last fixed-key 200 and first 401 are separated by only 25.764991 seconds. The host and benchmark namespace had identical public egress, and exact-value scans found no copy of the current key in 515,262 inspected workspace/log files.
+
+Immediately before invalidation, `labs-leanstral-1-5` returned 200 with rate-limit headers showing 30,000,000 tokens/minute and 300 requests/minute, nearly all remaining. `mistral-small-latest` showed 500,000 tokens/minute and 1,000 requests/minute; an eight-request concurrent burst returned 8/8 HTTP 200 and consumed 160 tokens. The subsequent failure returned generic 401 for both `/models` and chat, without `Retry-After` or rate-limit headers.
+
+This evidence rules out ordinary API rate limiting and strongly indicates a credential-lifecycle event close to a one-hour TTL. Mistral's current help article documents that keys created under **Code › Vibe Code CLI** may be Vibe plan keys tied to the Vibe budget and may return 401, while Studio API automation should use a Studio key. Only Mistral's internal key metadata can confirm product type, issue/expiry timestamps, and revocation reason.
+
 ## Customer identity
 
 - Account ID: `76a1b995-3912-40f0-8ab5-a25ce3341e1f`
