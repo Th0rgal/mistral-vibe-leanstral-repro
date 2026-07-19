@@ -78,11 +78,16 @@
   },
   "authenticated_canaries": {
     "vibe_2_21_0": {
-      "started_at_utc": "2026-07-19T08:21:59Z",
+      "started_at_utc": "2026-07-19T08:22:01.124462Z",
+      "ended_at_utc": "2026-07-19T08:22:13.813777Z",
       "model": "labs-leanstral-1-5",
       "provider_request_succeeded": true,
       "terminal_condition": "client_session_token_limit",
-      "observed_session_tokens": 53276,
+      "usage": {
+        "prompt_tokens": 52214,
+        "completion_tokens": 1062,
+        "total_tokens": 53276
+      },
       "configured_limit": 50000,
       "classification": "INFRA_INVALID"
     },
@@ -104,7 +109,14 @@
       "classification": "INFRA_INVALID"
     }
   },
+  "accounted_usage_before_failure": {
+    "prompt_tokens": 52542,
+    "completion_tokens": 1430,
+    "total_tokens": 53972,
+    "qualifier": "Lower bound from the two durable canaries; earlier successful direct probes are excluded because their usage counters were not retained. This does not establish a token-triggered cutoff."
+  },
   "rejected_window": {
+    "first_401_server_timestamp": "2026-07-19T08:28:08Z",
     "generated_at": "2026-07-19T08:28:17.302064+00:00",
     "probes": [
       {
@@ -149,6 +161,11 @@
       }
     ]
   },
-  "valid_to_rejected_upper_bound_seconds": 1145,
-  "conclusion": "The newly rotated key authenticated and reached provider/model validation, then the same provisioned credential returned HTTP 401 on all probes less than 19 minutes later. No hosted benchmark score is claimed."
+  "timing_bounds": {
+    "initial_success_to_first_401_seconds": 1136,
+    "precisely_timestamped_vibe_end_to_first_401_seconds": 354.186223,
+    "standalone_run_end_to_first_401_seconds": 340.11,
+    "standalone_bound_qualifier": "Approximate only: five successful requests occurred before run end, but individual request timestamps were not persisted."
+  },
+  "conclusion": "The newly rotated key authenticated and reached provider/model validation, then the same provisioned credential returned HTTP 401. The first 401 was observed 5 minutes 54.186 seconds after the last precisely timestamped successful Vibe session. At least 53,972 LLM tokens were accounted before failure, but the evidence cannot identify a token-triggered cutoff. No hosted benchmark score is claimed."
 }
