@@ -1,0 +1,154 @@
+{
+  "schema_version": 1,
+  "date": "2026-07-19",
+  "credential_source": "MISTRAL_API_KEY",
+  "credential_material": "not recorded",
+  "initial_window": {
+    "generated_at": "2026-07-19T08:09:13.346516+00:00",
+    "probes": [
+      {
+        "path": "/models",
+        "requested_model": null,
+        "status": 200,
+        "error": {},
+        "cf_ray": "a1d83e1c7adff78c-HEL",
+        "date": "Sun, 19 Jul 2026 08:09:12 GMT"
+      },
+      {
+        "path": "/chat/completions",
+        "requested_model": "mistral-small-latest",
+        "status": 200,
+        "error": {},
+        "cf_ray": "a1d83e1f7ea6e9e8-HEL",
+        "date": "Sun, 19 Jul 2026 08:09:13 GMT"
+      },
+      {
+        "path": "/chat/completions",
+        "requested_model": "leanstral-1-5",
+        "status": 400,
+        "error": {
+          "code": "1500",
+          "type": "invalid_model",
+          "message": "Invalid model: leanstral-1-5"
+        },
+        "cf_ray": "a1d83e213af9554a-HEL",
+        "date": "Sun, 19 Jul 2026 08:09:13 GMT"
+      },
+      {
+        "path": "/chat/completions",
+        "requested_model": "labs-leanstral-1-5",
+        "status": 400,
+        "error": {
+          "code": "3054",
+          "type": "invalid_request_greedy_sampling",
+          "message": "top_p must be 1 when using greedy sampling."
+        },
+        "cf_ray": "a1d83e21bfccb8cb-HEL",
+        "date": "Sun, 19 Jul 2026 08:09:13 GMT"
+      }
+    ],
+    "leanstral_catalog_entries": [
+      {
+        "id": "labs-leanstral-1-5-1",
+        "aliases": [
+          "labs-leanstral-1-5"
+        ],
+        "max_context_length": 262144,
+        "capabilities": {
+          "completion_chat": true,
+          "function_calling": true,
+          "reasoning": true,
+          "unified_resources": true
+        }
+      },
+      {
+        "id": "labs-leanstral-1-5",
+        "aliases": [
+          "labs-leanstral-1-5-1"
+        ],
+        "max_context_length": 262144,
+        "capabilities": {
+          "completion_chat": true,
+          "function_calling": true,
+          "reasoning": true,
+          "unified_resources": true
+        }
+      }
+    ]
+  },
+  "authenticated_canaries": {
+    "vibe_2_21_0": {
+      "started_at_utc": "2026-07-19T08:21:59Z",
+      "model": "labs-leanstral-1-5",
+      "provider_request_succeeded": true,
+      "terminal_condition": "client_session_token_limit",
+      "observed_session_tokens": 53276,
+      "configured_limit": 50000,
+      "classification": "INFRA_INVALID"
+    },
+    "standalone_harness": {
+      "started_at_utc": "2026-07-19T08:22:08Z",
+      "model": "labs-leanstral-1-5",
+      "authenticated_requests": 5,
+      "usage": {
+        "prompt_tokens": 328,
+        "completion_tokens": 368,
+        "total_tokens": 696
+      },
+      "passed_checks": [
+        "chat_completions",
+        "model_selection",
+        "usage_accounting"
+      ],
+      "terminal_condition": "streaming protocol probe did not observe native tool call or validated JSON fallback",
+      "classification": "INFRA_INVALID"
+    }
+  },
+  "rejected_window": {
+    "generated_at": "2026-07-19T08:28:17.302064+00:00",
+    "probes": [
+      {
+        "path": "/models",
+        "requested_model": null,
+        "status": 401,
+        "error": {
+          "detail": "Unauthorized"
+        },
+        "cf_ray": "a1d85a0ef8cdf78c-HEL",
+        "date": "Sun, 19 Jul 2026 08:28:17 GMT"
+      },
+      {
+        "path": "/chat/completions",
+        "requested_model": "mistral-small-latest",
+        "status": 401,
+        "error": {
+          "detail": "Unauthorized"
+        },
+        "cf_ray": "a1d85a0f3eec2945-HEL",
+        "date": "Sun, 19 Jul 2026 08:28:17 GMT"
+      },
+      {
+        "path": "/chat/completions",
+        "requested_model": "leanstral-1-5",
+        "status": 401,
+        "error": {
+          "detail": "Unauthorized"
+        },
+        "cf_ray": "a1d85a0f9f51e39a-HEL",
+        "date": "Sun, 19 Jul 2026 08:28:17 GMT"
+      },
+      {
+        "path": "/chat/completions",
+        "requested_model": "labs-leanstral-1-5",
+        "status": 401,
+        "error": {
+          "detail": "Unauthorized"
+        },
+        "cf_ray": "a1d85a0fe891a0a8-HEL",
+        "date": "Sun, 19 Jul 2026 08:28:17 GMT"
+      }
+    ]
+  },
+  "valid_to_rejected_upper_bound_seconds": 1145,
+  "conclusion": "The newly rotated key authenticated and reached provider/model validation, then the same provisioned credential returned HTTP 401 on all probes less than 19 minutes later. No hosted benchmark score is claimed."
+}

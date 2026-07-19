@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "benchmark_sha": "2b27270b66a1fc248e4ff594ba323698648ef02c",
+  "tasks": [
+    "1inch/xycswap_curve_safety/quote_exact_in_curve_safety",
+    "openzeppelin/erc4626_virtual_offset_deposit/deposit_redeem_round_trip_bound",
+    "uniswap_v2/pair_fee_adjusted_swap/swap_enforces_fee_adjusted_invariant"
+  ],
+  "hosted_official": {
+    "model": "labs-leanstral-1-5",
+    "vibe_canary": "INFRA_INVALID",
+    "standalone_canary": "INFRA_INVALID",
+    "valid_scored_tasks": 0,
+    "reason": "credential returned 401 before corrected three-task retries"
+  },
+  "self_hosted_nvfp4": {
+    "base_model": "mistralai/Leanstral-1.5-119B-A6B",
+    "quant": "Frosty40/Leanstral-1.5-119B-A6B-GGUF-NVFP4",
+    "runtime": "llama.cpp",
+    "vibe_stock": {
+      "valid_tasks": 3,
+      "score": "0/3",
+      "native_tool_calls": [
+        0,
+        0,
+        0
+      ],
+      "textual_pseudo_tool_calls": [
+        1,
+        1,
+        2
+      ],
+      "editable_changed": [
+        false,
+        false,
+        false
+      ]
+    },
+    "standalone_json_text_fallback": {
+      "valid_tasks": 3,
+      "score": "0/3",
+      "usage": [
+        {
+          "task": "1inch",
+          "requests": 7,
+          "prompt_tokens": 19607,
+          "completion_tokens": 281,
+          "total_tokens": 19888
+        },
+        {
+          "task": "erc4626",
+          "requests": 11,
+          "prompt_tokens": 29145,
+          "completion_tokens": 491,
+          "total_tokens": 29636
+        },
+        {
+          "task": "uniswap-v2",
+          "requests": 9,
+          "prompt_tokens": 24846,
+          "completion_tokens": 378,
+          "total_tokens": 25224
+        }
+      ],
+      "lean_lsp_mcp_calls": [
+        2,
+        2,
+        2
+      ],
+      "classification": [
+        "GENUINE_FAIL",
+        "GENUINE_FAIL",
+        "GENUINE_FAIL"
+      ]
+    }
+  },
+  "comparison_verdict": "No score comparison is valid yet because the hosted lane has zero reusable scored tasks. The official endpoint did demonstrate native tool calling in a direct actual-shape probe during the brief valid window; corrected benchmark retries remain blocked by 401."
+}
