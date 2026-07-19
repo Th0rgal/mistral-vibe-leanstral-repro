@@ -16,7 +16,7 @@ The Bitwarden secret revision was recorded at `11:10:21.332866Z`. The first fixe
 
 Immediately before invalidation, `labs-leanstral-1-5` returned 200 with rate-limit headers showing 30,000,000 tokens/minute and 300 requests/minute, nearly all remaining. `mistral-small-latest` showed 500,000 tokens/minute and 1,000 requests/minute; an eight-request concurrent burst returned 8/8 HTTP 200 and consumed 160 tokens. The subsequent failure returned generic 401 for both `/models` and chat, without `Retry-After` or rate-limit headers.
 
-This evidence rules out ordinary API rate limiting and strongly indicates a credential-lifecycle event close to a one-hour TTL. Mistral's current help article documents that keys created under **Code › Vibe Code CLI** may be Vibe plan keys tied to the Vibe budget and may return 401, while Studio API automation should use a Studio key. Only Mistral's internal key metadata can confirm product type, issue/expiry timestamps, and revocation reason.
+This evidence rules out ordinary API rate limiting and strongly indicates a credential-lifecycle event close to a one-hour TTL. Mistral Admin confirms that the replacement key is type **Studio**, expiration **Never**, with the default **Shared connectors only** scope. Per Mistral's documentation, that scope controls Connector access only and does not restrict ordinary model/chat API calls. The Vibe-plan-key explanation therefore does not apply: the leading diagnosis is an auth control-plane/data-plane inconsistency, erroneous internal expiry, or hourly Workspace/Organization entitlement revalidation. Only Mistral can inspect the key's internal issue/expiry state and explicit revocation reason.
 
 ## Customer identity
 
