@@ -11,20 +11,58 @@ I have used both a Mistral API key and a credential associated with my former Vi
 
 The self-hosted model must be a 4-bit NVFP4 quant because the DGX Spark has 128 GB of unified memory. I would prefer to use the hosted Mistral endpoint, but the recurring authentication failure blocks it.
 
-The repeated historical invalidation is customer-reported behavior. This repository captures one precise, simultaneous snapshot with both currently provisioned credentials.
+The repository now captures both the original simultaneous 401 snapshot and a stronger reproduction of the lifecycle problem: after I rotated `MISTRAL_API_KEY`, the new key returned 200 and reached the hosted Leanstral endpoint, then returned the same 401 less than 19 minutes later.
 
 ## Reproduction environment
 
 - UTC timestamp, direct API probes: `2026-07-19T07:43:50Z`–`07:43:51Z`
 - UTC timestamp, Vibe probes: `2026-07-19T07:45:44Z`–`07:45:47Z`
+- UTC timestamp, rotated-key success: `2026-07-19T08:09:12Z`–`08:22:28Z`
+- UTC timestamp, rotated-key 401 recheck: `2026-07-19T08:28:09Z`–`08:28:17Z`
 - Mistral Vibe: `2.21.0`
 - API base: `https://api.mistral.ai/v1`
 - User-Agent: `th0rgal-mistral-auth-repro/1.0`
-- Authentication: `Authorization: Bearer <credential>`
+- Authentication: `Authorization: Bearer [REDACTED]`
 - Redirects: none
 - Egress reached Cloudflare POP `HEL`
 
-## Direct API reproduction
+## Rotated-key valid-to-invalid transition
+
+After replacing `MISTRAL_API_KEY` in the secret manager, the following requests succeeded or reached normal model validation:
+
+| UTC | Request | Result | CF-Ray |
+|---|---|---|---|
+| `08:09:12` | `GET /v1/models` | 200; model catalog returned | `a1d83e1c7adff78c-HEL` |
+| `08:09:12` | `mistral-small-latest` completion | 200; assistant returned `OK` | `a1d83e1f7ea6e9e8-HEL` |
+| `08:09:13` | `leanstral-1-5` completion | 400 `invalid_model` | `a1d83e213af9554a-HEL` |
+| `08:09:13` | `labs-leanstral-1-5`, greedy shape | 400 `invalid_request_greedy_sampling`; the model was resolved | `a1d83e21bfccb8cb-HEL` |
+
+The returned catalog listed:
+
+```text
+labs-leanstral-1-5
+labs-leanstral-1-5-1
+```
+
+Each is an alias of the other, with `function_calling: true`, `reasoning: true`, and a 262,144-token context. The unprefixed `leanstral-1-5` ID was not valid for this account.
+
+Two hosted benchmark canaries then authenticated:
+
+- Vibe 2.21.0 reached `labs-leanstral-1-5` and reported a 53,276-token initialized session. The experiment had an incorrect 50,000-token client cap, so it stopped before tool execution. This attempt is `INFRA_INVALID`, not a hosted-model score.
+- The standalone harness completed five authenticated requests and accounted for 696 tokens. Chat completion, model selection, and usage checks passed. Its streaming protocol probe did not observe a native tool call, so the harness correctly stopped before scoring. A separate correctly shaped direct request had observed a native tool call earlier in the valid window.
+
+At `08:28:09Z`, three correctly shaped hosted Leanstral requests all returned 401. At `08:28:17Z`, a full recheck returned the same response for `/models`, `mistral-small-latest`, `leanstral-1-5`, and `labs-leanstral-1-5`:
+
+```text
+HTTP 401
+{"detail":"Unauthorized"}
+```
+
+The `/models` recheck CF-Ray was `a1d85a0ef8cdf78c-HEL`; the three completion CF-Rays were `a1d85a0f3eec2945-HEL`, `a1d85a0f9f51e39a-HEL`, and `a1d85a0fe891a0a8-HEL`.
+
+No local credential configuration changed between the successful and rejected windows. The corrected retries—a 200,000-token Vibe budget and non-streaming standalone transport—are prepared but cannot run while the key is rejected.
+
+## Original direct API reproduction
 
 The same request shape was issued separately with each credential. Credentials were held only in process memory.
 
@@ -48,7 +86,7 @@ For this comparison, the value was intentionally tested as the Bearer credential
 | `POST /v1/chat/completions`, `leanstral-1-5` | 401 | same | `a1d818f8ac589a02-HEL` |
 | `POST /v1/chat/completions`, `labs-leanstral-1-5` | 401 | same | `a1d818f8fd3f8d81-HEL` |
 
-The general model `mistral-small-latest` fails identically, so this snapshot is not a Leanstral entitlement/model-name failure. Authentication is rejected before model resolution.
+The general model `mistral-small-latest` failed identically in this original snapshot, so that snapshot was not a Leanstral entitlement/model-name failure. Authentication was rejected before model resolution.
 
 ## Vibe reproduction
 
@@ -77,11 +115,11 @@ No model output or tool call occurred.
 
 ## Questions for Mistral
 
-1. Can you inspect key creation, revocation, expiry, and organization-membership events for the account and organization above?
-2. Why do API keys for this account repeatedly begin returning 401 until a new key is created?
+1. Can you inspect key creation, revocation, expiry, and organization-membership events for the account and organization above, specifically between `08:09:12Z` and `08:28:09Z` on 2026-07-19?
+2. Why did a newly rotated key successfully list models and complete authenticated requests, then begin returning 401 less than 19 minutes later?
 3. Can ending a Vibe subscription invalidate API keys, organization membership, or credentials used by the API platform?
 4. What is the intended credential mechanism for a Vibe subscription? Vibe 2.21.0 reads only `MISTRAL_API_KEY`; should a subscription credential ever be used there?
-5. Is `labs-leanstral-1-5`, hardcoded by Vibe 2.21.0, still a supported alias? The current public model card refers to `leanstral-1-5`.
+5. Is `labs-leanstral-1-5` the intended current API ID? It was listed and resolved successfully, while `leanstral-1-5` returned `invalid_model`.
 6. Can you correlate the CF-Ray identifiers above with an internal auth rejection reason or request ID?
 
 ## Secondary local-Vibe observation
@@ -89,6 +127,10 @@ No model output or tool call occurred.
 After the hosted API became unusable, I self-hosted Leanstral 1.5 as an NVFP4 GGUF through llama.cpp. On three public Lean tasks the model returned textual pseudo-calls such as `read_file{"path": ...}` but an empty native `tool_calls` field. Stock Vibe executed nothing and ended after one turn.
 
 This is intentionally reported as an interoperability observation, not as evidence against the hosted model. The runtime differs from Mistral's recommended vLLM setup and uses a 4-bit quant. The three sanitized traces are included so the expected parser/tool-protocol behavior can be discussed precisely.
+
+## Comparison status
+
+The local NVFP4 lanes have verifier-backed results: stock Vibe scored 0/3 with no native tool calls or edits, and the standalone fallback lane scored 0/3 after tool loops with no edits. The hosted canaries above are both `INFRA_INVALID`, so no hosted score is reported and no score comparison is claimed. Completing the same three tasks requires a hosted credential that remains valid through the run.
 
 ## Security
 
