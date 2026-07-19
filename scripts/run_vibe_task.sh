@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+: "${MISTRAL_API_KEY:?Set MISTRAL_API_KEY locally; never commit it}"
+command -v vibe >/dev/null || { echo "vibe not found; install mistral-vibe==2.21.0" >&2; exit 2; }
+
+case "${1:-}" in
+  1inch) slug=1inch ;;
+  erc4626) slug=erc4626 ;;
+  uniswap-v2) slug=uniswap-v2 ;;
+  *) echo "usage: $0 {1inch|erc4626|uniswap-v2}" >&2; exit 2 ;;
+esac
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+WORK="$ROOT/workspaces/$slug"
+PROMPT="$ROOT/examples/$slug/prompt.txt"
+VHOME="$ROOT/.vibe-repro/tasks"
+OUT="$ROOT/reproduction-logs/$slug"
+[ -d "$WORK" ] || { echo "missing $WORK; run prepare_benchmark_workspaces.py" >&2; exit 2; }
+mkdir -p "$VHOME" "$OUT"
+cat > "$VHOME/config.toml" <<'EOF'
+active_model = "leanstral"
+system_prompt_id = "lean"
+default_agent = "lean"
+installed_agents = ["lean"]
+enable_telemetry = false
+enable_update_checks = false
+enable_notifications = false
+api_timeout = 180.0
+auto_compact_threshold = 200000
+EOF
+export VIBE_HOME="$VHOME"
+export LOG_LEVEL=DEBUG
+set +e
+vibe --prompt "$(cat "$PROMPT")" --agent lean --auto-approve   --max-turns 12 --max-tokens 50000 --output streaming   --trust --workdir "$WORK" >"$OUT/trace.ndjson" 2>"$OUT/stderr.log"
+rc=$?
+set -e
+printf '%s
+' "$rc" > "$OUT/exit-code.txt"
+[ ! -f "$VHOME/logs/vibe.log" ] || cp "$VHOME/logs/vibe.log" "$OUT/vibe.log"
+printf 'Vibe exited %s; logs: %s
+' "$rc" "$OUT"
+exit "$rc"

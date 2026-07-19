@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-07-19",
+  "benchmark_sha": "2b27270b66a1fc248e4ff594ba323698648ef02c",
+  "task_ref": "1inch/xycswap_curve_safety/quote_exact_in_curve_safety",
+  "scaffold": {
+    "name": "mistral-vibe",
+    "version": "2.21.0",
+    "runner_patch": "programmatic AgentLoop with streaming enabled; otherwise stock Vibe loop/config/tools"
+  },
+  "model": {
+    "served_id": "spark/leanstral-1.5-119b-a6b",
+    "base": "mistralai/Leanstral-1.5-119B-A6B",
+    "runtime_quant": "Frosty40/Leanstral-1.5-119B-A6B-GGUF-NVFP4",
+    "engine": "llama.cpp"
+  },
+  "prompt": "Solve exactly benchmark task `1inch/xycswap_curve_safety/quote_exact_in_curve_safety` in this public workspace. Read harness/TASK_SUMMARY.md, the implementation/specification files, and the editable Lean file before editing. Edit only the declared editable file. Do not use hidden Proofs modules, Benchmark/GeneratedPreview, sorry, admit, or new axioms. Use local filesystem tools and Lean LSP MCP; run ./harness/check.sh or a focused lake build after edits; iterate on compiler feedback. Do not use network tools, do not ask questions, and do not commit. Produce a proof submission, not merely a plan or suggested command.",
+  "assistant_message": "I'll solve this benchmark task. Let me start by understanding what's needed.\n\n**Goal**: Produce a proof for the `1inch/xycswap_curve_safety/quote_exact_in_curve_safety` benchmark.\n\nLet me first read the task summary and explore the workspace structure.read_file{\"path\": \"<TASK_WORKSPACE>/harness/TASK_SUMMARY.md\"}",
+  "native_tool_calls": [],
+  "native_tool_call_count": 0,
+  "textual_pseudo_tool_call_count": 1,
+  "editable_changed": false,
+  "duration_seconds": 7.271,
+  "verifier": {
+    "points_earned": 0,
+    "points_possible": 1,
+    "target_status": "forbidden_placeholder"
+  },
+  "interpretation": "The assistant emitted tool-shaped text in content, but tool_calls was null. Stock Vibe executed no tool and the workspace remained unchanged.",
+  "captured_task_summary_sha256": "901d6e229d90cff9c05613952e96a3678b926b21463df220dacb77a3851dc906",
+  "included_task_summary_sha256": "901d6e229d90cff9c05613952e96a3678b926b21463df220dacb77a3851dc906",
+  "included_task_summary_note": "The included summary is the public task context needed by the reproduction. The captured hash identifies the original generated summary used in the recorded run."
+}

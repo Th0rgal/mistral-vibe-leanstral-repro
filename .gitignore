@@ -1,0 +1,9 @@
+# Credentials and local runs
+.env
+.env.*
+!.env.example
+.vibe-repro/
+workspaces/
+reproduction-logs/
+__pycache__/
+*.pyc

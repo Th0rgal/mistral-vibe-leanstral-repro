@@ -1,0 +1,24 @@
+{
+  "benchmark_repo": "https://github.com/lfglabs-dev/ethereum-verification-benchmark.git",
+  "benchmark_sha": "2b27270b66a1fc248e4ff594ba323698648ef02c",
+  "tasks": [
+    {
+      "slug": "1inch",
+      "task_ref": "1inch/xycswap_curve_safety/quote_exact_in_curve_safety",
+      "editable_file": "Benchmark/Generated/OneInch/XYCSwapCurveSafety/Tasks/QuoteExactInCurveSafety.lean",
+      "task_summary": "examples/1inch/TASK_SUMMARY.md"
+    },
+    {
+      "slug": "erc4626",
+      "task_ref": "openzeppelin/erc4626_virtual_offset_deposit/deposit_redeem_round_trip_bound",
+      "editable_file": "Benchmark/Generated/OpenZeppelin/ERC4626VirtualOffsetDeposit/Tasks/DepositRedeemRoundTripBound.lean",
+      "task_summary": "examples/erc4626/TASK_SUMMARY.md"
+    },
+    {
+      "slug": "uniswap-v2",
+      "task_ref": "uniswap_v2/pair_fee_adjusted_swap/swap_enforces_fee_adjusted_invariant",
+      "editable_file": "Benchmark/Generated/UniswapV2/PairFeeAdjustedSwap/Tasks/SwapEnforcesFeeAdjustedInvariant.lean",
+      "task_summary": "examples/uniswap-v2/TASK_SUMMARY.md"
+    }
+  ]
+}
