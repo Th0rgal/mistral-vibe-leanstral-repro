@@ -1,0 +1,288 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-19T11:32:53.576039+00:00",
+  "endpoint_label": "local-nvfp4-llamacpp",
+  "model": "spark/leanstral-1.5-119b-a6b",
+  "request_shape": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "Call preflight_echo exactly once with value ok. Do not answer in prose."
+      }
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "preflight_echo",
+          "description": "Echo a short string.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "value"
+            ],
+            "additionalProperties": false
+          }
+        }
+      }
+    ],
+    "tool_choice": "auto",
+    "temperature": 1.0,
+    "top_p": 1.0,
+    "max_tokens": 256,
+    "stream": false
+  },
+  "results": [
+    {
+      "status": 200,
+      "returned_model": "leanstral-1.5",
+      "finish_reason": "stop",
+      "native_tool_call_count": 0,
+      "native_tool_calls": [],
+      "assistant_content": "",
+      "textual_pseudo_tool_call": false,
+      "usage": {
+        "completion_tokens": 6,
+        "prompt_tokens": 40,
+        "total_tokens": 46,
+        "prompt_tokens_details": {
+          "cached_tokens": 39
+        }
+      },
+      "error": {},
+      "response_headers": {
+        "date": "Sun, 19 Jul 2026 11:32:44 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "cf-ray": "a1d9683c9c7d82c4-ARN"
+      },
+      "attempt": 1
+    },
+    {
+      "status": 200,
+      "returned_model": "leanstral-1.5",
+      "finish_reason": "stop",
+      "native_tool_call_count": 0,
+      "native_tool_calls": [],
+      "assistant_content": "preflight_echo ok",
+      "textual_pseudo_tool_call": false,
+      "usage": {
+        "completion_tokens": 11,
+        "prompt_tokens": 40,
+        "total_tokens": 51,
+        "prompt_tokens_details": {
+          "cached_tokens": 39
+        }
+      },
+      "error": {},
+      "response_headers": {
+        "date": "Sun, 19 Jul 2026 11:32:44 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "cf-ray": "a1d9683f5ae757e3-ARN"
+      },
+      "attempt": 2
+    },
+    {
+      "status": 200,
+      "returned_model": "leanstral-1.5",
+      "finish_reason": "stop",
+      "native_tool_call_count": 0,
+      "native_tool_calls": [],
+      "assistant_content": "",
+      "textual_pseudo_tool_call": false,
+      "usage": {
+        "completion_tokens": 6,
+        "prompt_tokens": 40,
+        "total_tokens": 46,
+        "prompt_tokens_details": {
+          "cached_tokens": 39
+        }
+      },
+      "error": {},
+      "response_headers": {
+        "date": "Sun, 19 Jul 2026 11:32:44 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "cf-ray": "a1d968420dc582ad-ARN"
+      },
+      "attempt": 3
+    },
+    {
+      "status": 200,
+      "returned_model": "leanstral-1.5",
+      "finish_reason": "stop",
+      "native_tool_call_count": 0,
+      "native_tool_calls": [],
+      "assistant_content": "<|tool_call|>preflight_echo\n<arg_key>value</arg_key>\n<arg_value>ok</arg_value>\n<|tool_call_end|>\n<|tool_calls_section_end|>\n",
+      "textual_pseudo_tool_call": true,
+      "usage": {
+        "completion_tokens": 51,
+        "prompt_tokens": 40,
+        "total_tokens": 91,
+        "prompt_tokens_details": {
+          "cached_tokens": 39
+        }
+      },
+      "error": {},
+      "response_headers": {
+        "date": "Sun, 19 Jul 2026 11:32:46 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "cf-ray": "a1d96843cff2912c-ARN"
+      },
+      "attempt": 4
+    },
+    {
+      "status": 200,
+      "returned_model": "leanstral-1.5",
+      "finish_reason": "stop",
+      "native_tool_call_count": 0,
+      "native_tool_calls": [],
+      "assistant_content": "<|DSML|tool_calls>\n{\"name\": \"preflight_echo\", \"arguments\": {\"value\": \"ok\"}} <|tool_call_end|>\n<|DSML|tool_calls>\n{\"name\": \"preflight_echo\", \"arguments\": {\"value\": \"ok\"}} <|tool_call_end|>\n<|DSML|tool_calls>\n{\"name\": \"preflight_echo\", \"arguments\": {\"value\": \"ok\"}} <|tool_call_end|>\n",
+      "textual_pseudo_tool_call": false,
+      "usage": {
+        "completion_tokens": 108,
+        "prompt_tokens": 40,
+        "total_tokens": 148,
+        "prompt_tokens_details": {
+          "cached_tokens": 39
+        }
+      },
+      "error": {},
+      "response_headers": {
+        "date": "Sun, 19 Jul 2026 11:32:48 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "cf-ray": "a1d9684be99af327-ARN"
+      },
+      "attempt": 5
+    },
+    {
+      "status": 200,
+      "returned_model": "leanstral-1.5",
+      "finish_reason": "stop",
+      "native_tool_call_count": 0,
+      "native_tool_calls": [],
+      "assistant_content": "",
+      "textual_pseudo_tool_call": false,
+      "usage": {
+        "completion_tokens": 6,
+        "prompt_tokens": 40,
+        "total_tokens": 46,
+        "prompt_tokens_details": {
+          "cached_tokens": 39
+        }
+      },
+      "error": {},
+      "response_headers": {
+        "date": "Sun, 19 Jul 2026 11:32:48 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "cf-ray": "a1d9685b3b0006d9-ARN"
+      },
+      "attempt": 6
+    },
+    {
+      "status": 200,
+      "returned_model": "leanstral-1.5",
+      "finish_reason": "stop",
+      "native_tool_call_count": 0,
+      "native_tool_calls": [],
+      "assistant_content": "",
+      "textual_pseudo_tool_call": false,
+      "usage": {
+        "completion_tokens": 6,
+        "prompt_tokens": 40,
+        "total_tokens": 46,
+        "prompt_tokens_details": {
+          "cached_tokens": 39
+        }
+      },
+      "error": {},
+      "response_headers": {
+        "date": "Sun, 19 Jul 2026 11:32:49 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "cf-ray": "a1d9685d28b28b20-ARN"
+      },
+      "attempt": 7
+    },
+    {
+      "status": 200,
+      "returned_model": "leanstral-1.5",
+      "finish_reason": "stop",
+      "native_tool_call_count": 0,
+      "native_tool_calls": [],
+      "assistant_content": "",
+      "textual_pseudo_tool_call": false,
+      "usage": {
+        "completion_tokens": 6,
+        "prompt_tokens": 40,
+        "total_tokens": 46,
+        "prompt_tokens_details": {
+          "cached_tokens": 39
+        }
+      },
+      "error": {},
+      "response_headers": {
+        "date": "Sun, 19 Jul 2026 11:32:49 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "cf-ray": "a1d9685f0dc99a3e-ARN"
+      },
+      "attempt": 8
+    },
+    {
+      "status": 200,
+      "returned_model": "leanstral-1.5",
+      "finish_reason": "stop",
+      "native_tool_call_count": 0,
+      "native_tool_calls": [],
+      "assistant_content": "<|tool_call|>preflight_echo\n<|parameter|>value=ok<|parameter|>\n<|end_tool_call|>\n",
+      "textual_pseudo_tool_call": true,
+      "usage": {
+        "completion_tokens": 38,
+        "prompt_tokens": 40,
+        "total_tokens": 78,
+        "prompt_tokens_details": {
+          "cached_tokens": 39
+        }
+      },
+      "error": {},
+      "response_headers": {
+        "date": "Sun, 19 Jul 2026 11:32:50 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "cf-ray": "a1d96860ed322d6b-ARN"
+      },
+      "attempt": 9
+    },
+    {
+      "status": 200,
+      "returned_model": "leanstral-1.5",
+      "finish_reason": "stop",
+      "native_tool_call_count": 0,
+      "native_tool_calls": [],
+      "assistant_content": "<|tool_call|>tool_call_placeholder\nCall preflight_echo with value ok\n</tool_call_echo>\n<|tool_call_end|>tool_call_end_placeholder\n</|tool_call_end|>\n<|tool_calls_section_end|>tool_calls_section_end_placeholder\n<|tool_calls_section_start|>tool_calls_section_start_placeholder\n[/TOOL_CALLS]\n[/TOOL_CALLS]\nCall preflight_echo with value ok\n[/TOOL_CALLS]\n[/TOOL_CALLS]\nCall preflight_echo with value ok\n[/TOOL_CALLS]\n[/TOOL_CALLS]",
+      "textual_pseudo_tool_call": false,
+      "usage": {
+        "completion_tokens": 141,
+        "prompt_tokens": 40,
+        "total_tokens": 181,
+        "prompt_tokens_details": {
+          "cached_tokens": 39
+        }
+      },
+      "error": {},
+      "response_headers": {
+        "date": "Sun, 19 Jul 2026 11:32:53 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "cf-ray": "a1d968677b6b82bb-ARN"
+      },
+      "attempt": 10
+    }
+  ],
+  "summary": {
+    "attempts": 10,
+    "http_200": 10,
+    "attempts_with_native_tool_calls": 0,
+    "attempts_with_textual_pseudo_calls": 2
+  }
+}

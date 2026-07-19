@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "observed_at": "2026-07-19T07:30:00Z",
-  "dgx_host": "spark-de79",
+  "dgx_host": "[REDACTED_DGX_SPARK]",
   "requested_model_id": "spark/leanstral-1.5-119b-a6b",
   "router_served_model_id": "leanstral-1.5-119b-a6b",
   "base_model_repo": "mistralai/Leanstral-1.5-119B-A6B",

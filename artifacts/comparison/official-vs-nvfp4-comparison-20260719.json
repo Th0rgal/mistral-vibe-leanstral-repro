@@ -1,0 +1,227 @@
+{
+  "schema_version": 1,
+  "date": "2026-07-19",
+  "benchmark_sha": "2b27270b66a1fc248e4ff594ba323698648ef02c",
+  "tasks": [
+    "1inch/xycswap_curve_safety/quote_exact_in_curve_safety",
+    "openzeppelin/erc4626_virtual_offset_deposit/deposit_redeem_round_trip_bound",
+    "uniswap_v2/pair_fee_adjusted_swap/swap_enforces_fee_adjusted_invariant"
+  ],
+  "authentication_window": {
+    "first_confirmed_success_utc": "2026-07-19T11:14:10Z",
+    "post_run_success_utc": "2026-07-19T11:24:45Z",
+    "observed_valid_duration_seconds": 635,
+    "post_run_native_tool_probe": "HTTP 200 with native tool_calls",
+    "durably_accounted_tokens_excluding_direct_probes": 2073775,
+    "conclusion": "The replacement key remained valid after more than 2.07 million accounted tokens. The prior approximately 54k observation is not a deterministic token cutoff."
+  },
+  "direct_tool_protocol_probe": {
+    "request_shape": "Identical non-streaming prompt, function schema, tool_choice=auto, temperature=1.0, top_p=1.0, max_tokens=256",
+    "hosted_mistral_api": {
+      "attempts": 10,
+      "http_200": 10,
+      "native_tool_calls": 10,
+      "textual_pseudo_calls": 0,
+      "empty_or_plain_responses": 0
+    },
+    "local_nvfp4_llamacpp": {
+      "attempts": 10,
+      "http_200": 10,
+      "native_tool_calls": 0,
+      "textual_pseudo_calls": 2,
+      "empty_responses": 5,
+      "other_plain_responses": 3
+    }
+  },
+  "hosted_official": {
+    "model": "labs-leanstral-1-5",
+    "provider": "https://api.mistral.ai/v1",
+    "sampling": {
+      "temperature": 1.0,
+      "top_p": 1.0,
+      "reasoning_effort": "high"
+    },
+    "vibe_2_21_0": {
+      "score": "0/3",
+      "classification": [
+        "GENUINE_FAIL",
+        "GENUINE_FAIL",
+        "GENUINE_FAIL"
+      ],
+      "terminal_condition": [
+        "max_turns_12",
+        "max_turns_12",
+        "max_turns_12"
+      ],
+      "native_tool_calls": [
+        21,
+        20,
+        19
+      ],
+      "executed_tool_calls": [
+        21,
+        20,
+        19
+      ],
+      "tool_calls_succeeded": [
+        21,
+        19,
+        18
+      ],
+      "tool_calls_failed": [
+        0,
+        1,
+        1
+      ],
+      "editable_changed": [
+        false,
+        false,
+        true
+      ],
+      "verifier_status": [
+        "forbidden_placeholder",
+        "lean_check_failed",
+        "lean_check_failed"
+      ],
+      "usage": [
+        {
+          "prompt_tokens": 434153,
+          "completion_tokens": 4984,
+          "total_tokens": 439137
+        },
+        {
+          "prompt_tokens": 398280,
+          "completion_tokens": 4134,
+          "total_tokens": 402414
+        },
+        {
+          "prompt_tokens": 355904,
+          "completion_tokens": 4169,
+          "total_tokens": 360073
+        }
+      ],
+      "total_tokens": 1201624,
+      "observed_code_attempt": "Uniswap: `simp only [grind_norm]; exact hK`; rejected by Lean with maximum recursion depth reached"
+    },
+    "standalone_native_tools": {
+      "score": "0/3",
+      "classification": [
+        "GENUINE_FAIL",
+        "GENUINE_FAIL",
+        "GENUINE_FAIL"
+      ],
+      "requests": [
+        8,
+        12,
+        9
+      ],
+      "mcp_calls": [
+        4,
+        4,
+        5
+      ],
+      "editable_submitted": [
+        false,
+        true,
+        false
+      ],
+      "verifier_status": [
+        "forbidden_placeholder",
+        "lean_check_failed",
+        "forbidden_placeholder"
+      ],
+      "failure_mode": [
+        "repetition_loop",
+        "max_turns_exceeded",
+        "repetition_loop"
+      ],
+      "usage": [
+        {
+          "prompt_tokens": 50206,
+          "completion_tokens": 1816,
+          "total_tokens": 52022
+        },
+        {
+          "prompt_tokens": 75277,
+          "completion_tokens": 2585,
+          "total_tokens": 77862
+        },
+        {
+          "prompt_tokens": 63831,
+          "completion_tokens": 2700,
+          "total_tokens": 66531
+        }
+      ],
+      "total_tokens": 196415,
+      "observed_code_attempt": "ERC-4626: `unfold deposit_redeem_round_trip_bound_spec; grind`; rejected because `grind` left an arithmetic goal"
+    }
+  },
+  "self_hosted_nvfp4": {
+    "base_model": "mistralai/Leanstral-1.5-119B-A6B",
+    "quant": "Frosty40/Leanstral-1.5-119B-A6B-GGUF-NVFP4",
+    "runtime": "llama.cpp",
+    "vibe_2_21_0": {
+      "score": "0/3",
+      "native_tool_calls": [
+        0,
+        0,
+        0
+      ],
+      "executed_tool_calls": [
+        0,
+        0,
+        0
+      ],
+      "textual_pseudo_tool_calls": [
+        1,
+        1,
+        2
+      ],
+      "editable_changed": [
+        false,
+        false,
+        false
+      ],
+      "total_tokens": 9586
+    },
+    "standalone_json_text_fallback": {
+      "score": "0/3",
+      "classification": [
+        "GENUINE_FAIL",
+        "GENUINE_FAIL",
+        "GENUINE_FAIL"
+      ],
+      "requests": [
+        7,
+        11,
+        9
+      ],
+      "mcp_calls": [
+        2,
+        2,
+        2
+      ],
+      "editable_submitted": [
+        false,
+        false,
+        false
+      ],
+      "total_tokens": 74748
+    }
+  },
+  "comparison": {
+    "score": "Both hosted and NVFP4 lanes scored 0/3.",
+    "tool_protocol": "Hosted Leanstral emitted native tool_calls and completed multi-turn tool loops; NVFP4 under llama.cpp emitted only textual pseudo-calls in stock Vibe.",
+    "progress": "Hosted Leanstral modified one Vibe workspace and submitted one standalone proof attempt; NVFP4 modified none.",
+    "quality": "Neither hosted attempt compiled or passed the verifier. Hosted behavior is operationally much better but not yet successful proof generation.",
+    "vibe_token_ratio_hosted_over_nvfp4": 125.35197162528688,
+    "standalone_token_ratio_hosted_over_nvfp4": 2.627695724300316,
+    "confounders": [
+      "hosted serving stack versus llama.cpp",
+      "native Mistral tool parser versus JSON-text fallback",
+      "official precision unknown versus NVFP4 4-bit",
+      "temperature 1.0 hosted requirement versus local runtime sampling",
+      "stock Vibe cumulative session-token accounting"
+    ]
+  }
+}
