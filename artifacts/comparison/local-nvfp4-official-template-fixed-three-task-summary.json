@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-19T21:46:15Z",
+  "lane": "local-nvfp4-official-template-fixed-stock-vibe",
+  "classification": "GENUINE_FAIL",
+  "benchmark": {
+    "repository": "lfglabs-dev/ethereum-verification-benchmark",
+    "commit": "2b27270b66a1fc248e4ff594ba323698648ef02c",
+    "lean": "4.24.0",
+    "tasks": 3
+  },
+  "runtime": {
+    "base_model": "mistralai/Leanstral-1.5-119B-A6B",
+    "quant": "Frosty40/Leanstral-1.5-119B-A6B-GGUF-NVFP4",
+    "server": "llama.cpp b9294",
+    "router_fix_commit": "3ddf20f786f6e29f62ee54382256738652249860",
+    "vibe": "2.21.0",
+    "streaming": true,
+    "max_turns_per_task": 12,
+    "max_session_tokens": 600000
+  },
+  "aggregate": {
+    "points_earned": 0,
+    "points_possible": 3,
+    "native_tool_calls": 63,
+    "executed_tool_results": 63,
+    "textual_pseudo_tool_calls": 0,
+    "tool_errors": 12,
+    "edited_tasks": 0,
+    "agent_exit_zero_tasks": 3,
+    "artifact_complete_tasks": 3,
+    "infra_invalid_tasks": 0,
+    "genuine_fail_tasks": 3
+  },
+  "tasks": [
+    {
+      "task_ref": "1inch/xycswap_curve_safety/quote_exact_in_curve_safety",
+      "duration_seconds": 123.983,
+      "native_tool_calls": 22,
+      "executed_tool_results": 22,
+      "tool_errors": 2,
+      "editable_changed": false,
+      "verifier_status": "forbidden_placeholder",
+      "points_earned": 0
+    },
+    {
+      "task_ref": "openzeppelin/erc4626_virtual_offset_deposit/deposit_redeem_round_trip_bound",
+      "duration_seconds": 105.067,
+      "native_tool_calls": 14,
+      "executed_tool_results": 14,
+      "tool_errors": 1,
+      "editable_changed": false,
+      "verifier_status": "lean_check_failed",
+      "points_earned": 0
+    },
+    {
+      "task_ref": "uniswap_v2/pair_fee_adjusted_swap/swap_enforces_fee_adjusted_invariant",
+      "duration_seconds": 128.173,
+      "native_tool_calls": 27,
+      "executed_tool_results": 27,
+      "tool_errors": 9,
+      "editable_changed": false,
+      "verifier_status": "forbidden_placeholder",
+      "points_earned": 0
+    }
+  ],
+  "interpretation": {
+    "tool_transport": "passed",
+    "proof_outcome": "failed",
+    "dominant_observed_agent_error": "repeated use of nonexistent or fabricated filesystem paths",
+    "quantization_attribution_established": false
+  },
+  "credential_material_included": false,
+  "private_endpoint_included": false,
+  "private_filesystem_paths_included": false
+}
