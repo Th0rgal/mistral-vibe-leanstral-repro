@@ -1,0 +1,20 @@
+# Sanitized excerpts from Vibe 2.21.0 debug logs
+# Credential values, prefixes, hashes, lengths, local homes, and process IDs are omitted.
+
+[MISTRAL_API_KEY]
+WARNING Failed to bootstrap connectors
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url
+'https://api.mistral.ai/v1/connectors/bootstrap?include_auth_actionable_connectors=true'
+Vibe stderr:
+Error: API error from mistral-testing (model: labs-leanstral-1-5): Invalid API key. Please check your API key and try again.
+Exit code: 1
+Duration: 2.003 seconds
+
+[MISTRAL_VIBE_SECRET mapped to MISTRAL_API_KEY]
+WARNING Failed to bootstrap connectors
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url
+'https://api.mistral.ai/v1/connectors/bootstrap?include_auth_actionable_connectors=true'
+Vibe stderr:
+Error: API error from mistral-testing (model: labs-leanstral-1-5): Invalid API key. Please check your API key and try again.
+Exit code: 1
+Duration: 1.764 seconds
