@@ -3,7 +3,7 @@
 Minimal, sanitized reproduction and repair of two related behaviors:
 
 1. **Protocol interoperability:** the hosted Mistral API returned structured native `tool_calls`, while the initial NVFP4 Leanstral 1.5 deployment returned empty responses or raw sentinel text. The root cause was a missing GGUF chat template; the repaired local route now returns native calls in 10/10 identical attempts.
-2. **Agent outcome:** hosted Leanstral executes multi-turn tool loops through Vibe and Lean MCP, but still scores 0/3 on the frozen Lean panel. The local 0/3 panel was captured before the template repair; a post-fix stock-Vibe smoke now executes multi-turn Lean MCP calls correctly.
+2. **Agent outcome:** hosted Leanstral executes multi-turn tool loops through Vibe and Lean MCP, but still scores 0/3 on the frozen Lean panel. The repaired local route also scores 0/3 despite executing 63 native calls; transport works, but the model makes no edits and repeatedly targets nonexistent paths.
 
 Start with [`COMPARISON.md`](COMPARISON.md). It contains the exact request shape, 10-attempt direct probe, three-task results, proof attempts, verifier errors, interpretation, and questions for Mistral.
 
@@ -27,13 +27,15 @@ The complete three-task comparison ran after a second key rotation. Both hosted 
 |---|---:|---:|---:|---:|
 | Hosted Leanstral + Vibe 2.21.0 | 0/3 | 60 / 60 | 1/3 | 1,201,624 |
 | NVFP4 llama.cpp + Vibe 2.21.0, pre-fix | 0/3 | 0 / 0 | 0/3 | 9,586 |
+| NVFP4 llama.cpp + Vibe 2.21.0, fixed | 0/3 | 63 / 63 | 0/3 | not captured |
 | Hosted Leanstral standalone | 0/3 | 13 Lean MCP calls | 1/3 | 196,415 |
 | NVFP4 standalone JSON fallback | 0/3 | 6 Lean MCP calls | 0/3 | 74,748 |
 
 Hosted Leanstral's native Mistral tool protocol works. The original local route emitted textual
 pseudo-calls because its GGUF had no embedded chat template. The deployed official-template fix
-now produces native calls in 10/10 external requests and stock Vibe executes Lean MCP results over
-multiple turns. The frozen three-task panel has not yet been rerun after that transport fix.
+now produces native calls in 10/10 external requests. In the post-fix three-task run, stock Vibe
+executed all 63 returned calls without transport failures, but the model changed no proof files and
+scored 0/3. This separates the repaired protocol from the remaining proof/agent-quality failure.
 
 See [`COMPARISON.md`](COMPARISON.md) for the detailed evidence. [`SUPPORT_MESSAGE.md`](SUPPORT_MESSAGE.md) is a concise message ready to send to Mistral.
 

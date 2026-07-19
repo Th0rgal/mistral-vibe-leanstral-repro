@@ -130,9 +130,24 @@ by
 Lean rejected it with `maximum recursion depth has been reached`.
 
 The pre-fix local NVFP4 sessions ended after one assistant turn because Vibe received no native
-calls. They emitted zero edits and only four textual pseudo-calls across all three tasks. Those
-three proof tasks have not yet been rerun after the transport fix; the post-fix stock-Vibe smoke did
-confirm multi-turn native tool execution.
+calls. They emitted zero edits and only four textual pseudo-calls across all three tasks.
+
+### Post-fix local Vibe rerun
+
+The same three tasks were rerun through the repaired DGX route. The runner added the exact isolated
+workspace path to the otherwise unchanged task prompt to remove working-directory ambiguity.
+
+| Task | Native/executed calls | Tool errors | Edit | Verifier |
+|---|---:|---:|---:|---|
+| 1inch | 22 / 22 | 2 | no | `forbidden_placeholder` |
+| ERC-4626 | 14 / 14 | 1 | no | `lean_check_failed` |
+| Uniswap v2 | 27 / 27 | 9 | no | `forbidden_placeholder` |
+| **Total** | **63 / 63** | **12** | **0/3** | **0/3** |
+
+All three agent processes exited normally and produced complete workspace, conversation, and
+verifier artifacts. There were zero textual pseudo-calls and no template, parser, or transport
+failure, so the 0/3 result is classified `GENUINE_FAIL`. Most tool errors were attempts to read
+nonexistent or fabricated filesystem paths despite the exact workspace path in the prompt.
 
 ### Standalone benchmark harness
 
@@ -165,12 +180,13 @@ Lean rejected it because `grind` left the core arithmetic goal. The 1inch and Un
    external requests and sustains stock-Vibe tool-result turns.
 5. Hosted Leanstral made more operational progress than the pre-fix local run: 60 Vibe calls, 13
    Lean MCP calls, and two concrete proof edits/submissions.
-6. Neither pre-fix runtime solved any of the three tasks.
+6. Neither hosted Leanstral nor the repaired local NVFP4 lane solved any of the three tasks.
 
 ### Not established
 
-1. The fixed transport smoke does not establish post-fix proof quality on the three-task panel.
-2. The panel is behavioral evidence on a frozen diagnostic benchmark commit, not a published current-main benchmark score.
+1. The panel is behavioral evidence on a frozen diagnostic benchmark commit, not a published current-main benchmark score.
+2. The experiment does not isolate quantization from other hosted-vs-local serving differences, so
+   the local path errors cannot be attributed to NVFP4 alone.
 3. Large hosted Vibe usage reflects cumulative multi-turn session accounting and is not a measure of proof efficiency by itself.
 
 ## Questions for Mistral
