@@ -12,24 +12,42 @@ Account and organization:
 - Organization ID: `f1cd0a1c-0189-4136-b6b2-af4bec85a0bc`
 - My Vibe subscription has ended.
 
-I reproduced the current failure on 2026-07-19 UTC with two separately provisioned credentials:
+I now have a precise reproduction of the key becoming invalid. After rotating `MISTRAL_API_KEY` on 2026-07-19:
 
-1. `MISTRAL_API_KEY`
-2. a credential associated with my former Vibe subscription, tested separately as the Bearer credential
+- `08:09:12Z`: `GET /v1/models` returned 200.
+- `08:09:12Z`: `mistral-small-latest` returned a successful completion.
+- `08:09:13Z`: `labs-leanstral-1-5` was authenticated and resolved; my deliberately greedy request reached normal model validation and returned `top_p must be 1 when using greedy sampling`.
+- Around `08:22Z`: hosted Leanstral benchmark canaries completed authenticated provider requests.
+- `08:28:09Z`: correctly shaped hosted Leanstral requests returned 401.
+- `08:28:17Z`: `/models`, `mistral-small-latest`, and both Leanstral IDs all returned the same 401.
 
-Both produced the same result for every request below:
-
-- `GET https://api.mistral.ai/v1/models`
-- `POST /v1/chat/completions` with `mistral-small-latest`
-- `POST /v1/chat/completions` with `leanstral-1-5`
-- `POST /v1/chat/completions` with `labs-leanstral-1-5`
-
-Result:
+The final response was:
 
 ```text
 HTTP 401
 {"detail":"Unauthorized"}
 ```
+
+This is a newly created key changing from valid to rejected in less than 19 minutes, without a local credential configuration change. The `/models` CF-Ray identifiers for the successful and rejected requests are respectively:
+
+```text
+a1d83e1c7adff78c-HEL
+a1d85a0ef8cdf78c-HEL
+```
+
+The model catalog returned during the valid window listed `labs-leanstral-1-5` and `labs-leanstral-1-5-1` as aliases of the same model, with function calling and reasoning enabled. The unprefixed `leanstral-1-5` returned `invalid_model`.
+
+Earlier the same day, I also reproduced the original failure with two separately provisioned credentials:
+
+1. `MISTRAL_API_KEY`
+2. a credential associated with my former Vibe subscription, tested separately as the Bearer credential
+
+Both produced the same 401 result for every request below:
+
+- `GET https://api.mistral.ai/v1/models`
+- `POST /v1/chat/completions` with `mistral-small-latest`
+- `POST /v1/chat/completions` with `leanstral-1-5`
+- `POST /v1/chat/completions` with `labs-leanstral-1-5`
 
 Mistral Vibe 2.21.0 also exits with:
 
@@ -43,7 +61,7 @@ Its debug log records another 401 on:
 https://api.mistral.ai/v1/connectors/bootstrap?include_auth_actionable_connectors=true
 ```
 
-The general model fails identically, so the captured failure occurs before Leanstral model resolution or Labs entitlement checks.
+The general model failed identically, so those captured failures occurred before Leanstral model resolution or Labs entitlement checks.
 
 I published a minimal reproducer, timestamps, CF-Ray IDs, sanitized API artifacts, and Vibe logs here:
 
@@ -55,11 +73,11 @@ No credential value, prefix, hash, or length is included.
 
 Could you please check:
 
-1. key creation, revocation, expiry, and organization-membership events for this account;
-2. why keys repeatedly begin returning 401 until I recreate them;
+1. key creation, revocation, expiry, and organization-membership events for this account, especially between `08:09:12Z` and `08:28:09Z`;
+2. why this newly rotated key changed from accepted to 401 in less than 19 minutes;
 3. whether ending a Vibe subscription can invalidate API keys or organization access;
 4. the intended credential flow for Vibe subscriptions, since Vibe 2.21.0 reads `MISTRAL_API_KEY`;
-5. whether the `labs-leanstral-1-5` alias hardcoded by Vibe 2.21.0 is still supported now that the public model ID is `leanstral-1-5`.
+5. whether `labs-leanstral-1-5` is the intended API ID, since it was listed and resolved while `leanstral-1-5` returned `invalid_model`.
 
 Because this has been difficult to rely on, I moved the Lean workload to a self-hosted Leanstral 1.5 on a DGX Spark. It is an NVFP4 4-bit quant because the machine has 128 GB of unified memory. I would prefer to use the hosted endpoint if the recurring authentication problem can be fixed.
 

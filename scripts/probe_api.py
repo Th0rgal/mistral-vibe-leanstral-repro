@@ -84,7 +84,17 @@ def main() -> int:
         raise SystemExit(f"{args.credential_env} is not set")
     probes = [request(secret, "GET", "/models", None)]
     for model in MODELS:
-        item = request(secret, "POST", "/chat/completions", {"model": model, "messages": [{"role": "user", "content": "Reply exactly OK."}], "max_tokens": 4, "temperature": 0})
+        is_leanstral = "leanstral" in model
+        payload = {
+            "model": model,
+            "messages": [{"role": "user", "content": "Reply exactly OK."}],
+            "max_tokens": 64 if is_leanstral else 4,
+            "temperature": 1.0 if is_leanstral else 0.0,
+            "top_p": 1.0,
+        }
+        if is_leanstral:
+            payload["reasoning_effort"] = "high"
+        item = request(secret, "POST", "/chat/completions", payload)
         item["requested_model"] = model
         probes.append(item)
     artifact = {

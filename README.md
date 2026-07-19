@@ -2,7 +2,7 @@
 
 Minimal, sanitized reproductions for two separate observations:
 
-1. **Authentication:** two independently provisioned credentials both return the same HTTP 401 from the Mistral API. Mistral Vibe 2.21.0 reports `Invalid API key` with either credential.
+1. **Authentication:** two independently provisioned credentials returned the same HTTP 401. A newly rotated `MISTRAL_API_KEY` then authenticated successfully, but the same provisioned key was back to the identical 401 less than 19 minutes later.
 2. **Local Leanstral interoperability:** on three public Lean benchmark tasks, a self-hosted NVFP4 Leanstral 1.5 served by llama.cpp emits tool-shaped text but no native `tool_calls`; stock Vibe therefore executes no tool and exits after one assistant turn.
 
 These must not be conflated. The second observation uses a 4-bit local quant and is **not evidence about Mistral's hosted Leanstral endpoint**.
@@ -17,6 +17,24 @@ These must not be conflated. The second observation uses a 4-bit local quant and
 No API key, subscription secret, token prefix, hash, or credential length is committed.
 
 ## Confirmed authentication result
+
+### Newly rotated key: valid, then rejected within 19 minutes
+
+| UTC | Probe | Result |
+|---|---|---|
+| `08:09:12` | `GET /v1/models` | 200; catalog returned |
+| `08:09:12` | `mistral-small-latest` completion | 200; `OK` |
+| `08:09:13` | `leanstral-1-5` | 400 `invalid_model` |
+| `08:09:13` | `labs-leanstral-1-5` with greedy sampling | 400 `top_p must be 1 when using greedy sampling` — authentication and model resolution succeeded |
+| `08:22` | hosted Leanstral Vibe/harness attempts | authenticated provider requests completed |
+| `08:28:09` | correctly shaped Leanstral and tool probes | 401 `Unauthorized` |
+| `08:28:17` | `/models`, general model, and both Leanstral IDs | 401 `Unauthorized` for all four |
+
+The live catalog identifies `labs-leanstral-1-5` and `labs-leanstral-1-5-1` as aliases of the same hosted model, with function calling and reasoning enabled. `leanstral-1-5` is not a valid API model ID for this account.
+
+This short valid-to-invalid transition is stronger evidence than the original static 401 snapshot: the rotated key was accepted, used for real provider calls, and then rejected without a local configuration change.
+
+### Original simultaneous credential snapshot
 
 | Credential source | `GET /v1/models` | `mistral-small-latest` | `leanstral-1-5` | `labs-leanstral-1-5` |
 |---|---:|---:|---:|---:|
@@ -34,6 +52,15 @@ Mistral Vibe reports:
 ```text
 Error: API error from mistral-testing (model: labs-leanstral-1-5): Invalid API key. Please check your API key and try again.
 ```
+
+## Hosted-vs-NVFP4 comparison status
+
+There is **no valid three-task hosted score yet**. Two hosted canaries authenticated before the key failed again:
+
+- Vibe reached the hosted model, but the experiment's 50,000-token session cap was below Vibe's 53,276-token initialized session and stopped before tool execution. This attempt is `INFRA_INVALID`, not a model failure.
+- The standalone harness completed five authenticated preflight requests (696 tokens) but its streaming protocol probe did not observe a tool call. A separate correctly shaped direct request did observe one native tool call. The corrected non-streaming retry could not run after the key returned to 401.
+
+The corrected retry configuration is ready: a 200,000-token Vibe session budget and non-streaming standalone preflight. It requires a key that remains valid for the duration of the three-task run.
 
 See [`REPORT.md`](REPORT.md) for timestamps, endpoints, CF-Ray identifiers, caveats, and the support request. [`SUPPORT_MESSAGE.md`](SUPPORT_MESSAGE.md) is a concise message ready to send to Mistral.
 
