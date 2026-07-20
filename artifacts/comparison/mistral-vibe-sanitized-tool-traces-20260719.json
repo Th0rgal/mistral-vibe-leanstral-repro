@@ -1,0 +1,1555 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-07-19",
+  "benchmark_sha": "2b27270b66a1fc248e4ff594ba323698648ef02c",
+  "scaffold": {
+    "name": "mistral-vibe",
+    "version": "2.21.0"
+  },
+  "notes": [
+    "Tool transport errors and model-selected tool invocation errors are classified separately.",
+    "Absolute benchmark paths, private hosts, and secret-shaped values are redacted.",
+    "Result excerpts are truncated; complete private artifacts remain available on request."
+  ],
+  "lanes": {
+    "hosted-mistral-api": {
+      "model": "labs-leanstral-1-5",
+      "score": "0/3",
+      "tasks": [
+        {
+          "task_ref": "1inch/xycswap_curve_safety/quote_exact_in_curve_safety",
+          "native_tool_calls": 21,
+          "executed_tool_results": 21,
+          "editable_changed": false,
+          "verifier_score": "0/1",
+          "calls": [
+            {
+              "index": 1,
+              "tool": "bash",
+              "arguments": {
+                "command": "find [WORKSPACE]/results/vibe-official/20260719T111846Z-vibe-2.21.0-labs-leanstral-1-5-1inch__xycswap_curve_safety__quote_exact_in_curve_safety -type f | head -50"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 2,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T111846Z-vibe-2.21.0-labs-leanstral-1-5-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/harness/TASK_SUMMARY.md"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 3,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T111846Z-vibe-2.21.0-labs-leanstral-1-5-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/Benchmark/Generated/OneInch/XYCSwapCurveSafety/Tasks/QuoteExactInCurveSafety.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 4,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T111846Z-vibe-2.21.0-labs-leanstral-1-5-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/Benchmark/Cases/OneInch/XYCSwapCurveSafety/Specs.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 5,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T111846Z-vibe-2.21.0-labs-leanstral-1-5-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/Benchmark/Cases/OneInch/XYCSwapCurveSafety/Contract.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 6,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T111846Z-vibe-2.21.0-labs-leanstral-1-5-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/Benchmark/Grindset/Reach.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 7,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T111846Z-vibe-2.21.0-labs-leanstral-1-5-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/Benchmark/Grindset/Core.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 8,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T111846Z-vibe-2.21.0-labs-leanstral-1-5-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/Benchmark/Grindset/Monad.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 9,
+              "tool": "bash",
+              "arguments": {
+                "command": "find [WORKSPACE]/results/vibe-official/20260719T111846Z-vibe-2.21.0-labs-leanstral-1-5-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace -path \"*/.lake/*\" -prune -o -type f -name \"*.lean\" -print | head -30"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 10,
+              "tool": "bash",
+              "arguments": {
+                "command": "find [WORKSPACE]/results/vibe-official/20260719T111846Z-vibe-2.21.0-labs-leanstral-1-5-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/.lake -type f -name \"*.lean\" | head -5"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 11,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T111846Z-vibe-2.21.0-labs-leanstral-1-5-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/Benchmark/Grindset.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 12,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T111846Z-vibe-2.21.0-labs-leanstral-1-5-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/lakefile.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 13,
+              "tool": "lean-lsp_lean_loogle",
+              "arguments": {
+                "query": "div_mul_le",
+                "num_results": 10
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 14,
+              "tool": "lean-lsp_lean_loogle",
+              "arguments": {
+                "query": "(a / b) * b ≤ a",
+                "num_results": 10
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 15,
+              "tool": "lean-lsp_lean_local_search",
+              "arguments": {
+                "query": "div_mul_le",
+                "limit": 10
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 16,
+              "tool": "lean-lsp_lean_local_search",
+              "arguments": {
+                "query": "Nat.div_mul_le",
+                "limit": 10
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 17,
+              "tool": "lean-lsp_lean_build",
+              "arguments": {
+                "lean_project_path": "[WORKSPACE]/results/vibe-official/20260719T111846Z-vibe-2.21.0-labs-leanstral-1-5-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace",
+                "output_lines": 30
+              },
+              "result": {
+                "status": "error_signal",
+                "excerpt": "ok: True\nserver: stdio:[BENCHMARK_ROOT]/bin/lean-lsp-mcp\ntool: lean_build\ntext: None\nstructured: {'success': False, 'output': 'info: downloading https://releases.lean-lang.org/lean4/v4.24.0/lean-4.24.0-linux.tar.zst\\ninfo: installing [HERMES_HOME]/.elan/toolchains/leanprover--lean4---v4.24.0\\n✖ [0/0] Running job computation\\nerror: no such file or directory (error code: 2)\\n  file: [WO...[truncated]",
+                "error_signals": [
+                  "no_such_file"
+                ]
+              }
+            },
+            {
+              "index": 18,
+              "tool": "bash",
+              "arguments": {
+                "command": "find [WORKSPACE]/results/vibe-official/20260719T111846Z-vibe-2.21.0-labs-leanstral-1-5-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace -maxdepth 1 -type f -name \"*.lean\""
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 19,
+              "tool": "lean-lsp_lean_goal",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T111846Z-vibe-2.21.0-labs-leanstral-1-5-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/Benchmark/Generated/OneInch/XYCSwapCurveSafety/Tasks/QuoteExactInCurveSafety.lean",
+                "line": 23
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 20,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T111846Z-vibe-2.21.0-labs-leanstral-1-5-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/cases/1inch/xycswap_curve_safety/verity/Specs.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 21,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T111846Z-vibe-2.21.0-labs-leanstral-1-5-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/cases/1inch/xycswap_curve_safety/verity/Contract.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            }
+          ],
+          "explicit_tool_errors": 0,
+          "error_bearing_results": 1
+        },
+        {
+          "task_ref": "openzeppelin/erc4626_virtual_offset_deposit/deposit_redeem_round_trip_bound",
+          "native_tool_calls": 20,
+          "executed_tool_results": 20,
+          "editable_changed": false,
+          "verifier_score": "0/1",
+          "calls": [
+            {
+              "index": 1,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112010Z-vibe-2.21.0-labs-leanstral-1-5-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/harness/TASK_SUMMARY.md"
+              },
+              "result": {
+                "status": "error_signal",
+                "excerpt": "<tool_error>read_file failed: File not found at: [WORKSPACE]/results/vibe-official/20260719T112010Z-vibe-2.21.0-labs-leanstral-1-5-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/harness/TASK_SUMMARY.md</tool_error>",
+                "error_signals": [
+                  "explicit_tool_error"
+                ]
+              }
+            },
+            {
+              "index": 2,
+              "tool": "bash",
+              "arguments": {
+                "command": "find [WORKSPACE]/results/vibe-official/20260719T112010Z-vibe-2.21.0-labs-leanstral-1-5-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound -type f | head -40"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 3,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112010Z-vibe-2.21.0-labs-leanstral-1-5-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/workspace/harness/TASK_SUMMARY.md"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 4,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112010Z-vibe-2.21.0-labs-leanstral-1-5-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/workspace/harness/POLICY.md"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 5,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112010Z-vibe-2.21.0-labs-leanstral-1-5-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/workspace/harness/PROOF_PATTERNS.md"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 6,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112010Z-vibe-2.21.0-labs-leanstral-1-5-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/workspace/Benchmark/Cases/OpenZeppelin/ERC4626VirtualOffsetDeposit/Contract.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 7,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112010Z-vibe-2.21.0-labs-leanstral-1-5-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/workspace/Benchmark/Cases/OpenZeppelin/ERC4626VirtualOffsetDeposit/Specs.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 8,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112010Z-vibe-2.21.0-labs-leanstral-1-5-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/workspace/Benchmark/Generated/OpenZeppelin/ERC4626VirtualOffsetDeposit/Tasks/DepositRedeemRoundTripBound.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 9,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112010Z-vibe-2.21.0-labs-leanstral-1-5-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/workspace/Benchmark/Grindset.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 10,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112010Z-vibe-2.21.0-labs-leanstral-1-5-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/workspace/Benchmark/Grindset/Core.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 11,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112010Z-vibe-2.21.0-labs-leanstral-1-5-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/workspace/Benchmark/Grindset/ArithCore.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 12,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112010Z-vibe-2.21.0-labs-leanstral-1-5-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/workspace/Benchmark/Grindset/Monad.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 13,
+              "tool": "bash",
+              "arguments": {
+                "command": "find [WORKSPACE]/results/vibe-official/20260719T112010Z-vibe-2.21.0-labs-leanstral-1-5-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/workspace -name \"Math.lean\" -path \"*/Stdlib/*\" | head -5"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 14,
+              "tool": "bash",
+              "arguments": {
+                "command": "find [WORKSPACE]/results/vibe-official/20260719T112010Z-vibe-2.21.0-labs-leanstral-1-5-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/workspace -name \"*.lean\" | xargs grep -l \"ceilDiv\" 2>/dev/null | head -10"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 15,
+              "tool": "bash",
+              "arguments": {
+                "command": "find [WORKSPACE]/results/vibe-official/20260719T112010Z-vibe-2.21.0-labs-leanstral-1-5-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/workspace -path \"*Verity*\" -name \"*.lean\" | head -20"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 16,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112010Z-vibe-2.21.0-labs-leanstral-1-5-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/workspace/lakefile.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 17,
+              "tool": "bash",
+              "arguments": {
+                "command": "find [WORKSPACE]/results/vibe-official/20260719T112010Z-vibe-2.21.0-labs-leanstral-1-5-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/workspace/.lake -name \"*.lean\" -path \"*Stdlib*Math*\" 2>/dev/null | head -5"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 18,
+              "tool": "bash",
+              "arguments": {
+                "command": "find [WORKSPACE]/results/vibe-official/20260719T112010Z-vibe-2.21.0-labs-leanstral-1-5-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/workspace/.lake -name \"Math.lean\" 2>/dev/null | head -10"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 19,
+              "tool": "lean-lsp_lean_goal",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112010Z-vibe-2.21.0-labs-leanstral-1-5-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/workspace/Benchmark/Generated/OpenZeppelin/ERC4626VirtualOffsetDeposit/Tasks/DepositRedeemRoundTripBound.lean",
+                "line": 28
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 20,
+              "tool": "lean-lsp_lean_build",
+              "arguments": {
+                "lean_project_path": "[WORKSPACE]/results/vibe-official/20260719T112010Z-vibe-2.21.0-labs-leanstral-1-5-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/workspace",
+                "output_lines": 30
+              },
+              "result": {
+                "status": "error_signal",
+                "excerpt": "ok: True\nserver: stdio:[BENCHMARK_ROOT]/bin/lean-lsp-mcp\ntool: lean_build\ntext: None\nstructured: {'success': False, 'output': '✖ [0/0] Running job computation\\nerror: no such file or directory (error code: 2)\\n  file: [WORKSPACE]/results/vibe-official/20260719T112010Z-vibe-2.21.0-labs-leanstral-1-5-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/workspace/Benchmark.le...[truncated]",
+                "error_signals": [
+                  "no_such_file"
+                ]
+              }
+            }
+          ],
+          "explicit_tool_errors": 1,
+          "error_bearing_results": 2
+        },
+        {
+          "task_ref": "uniswap_v2/pair_fee_adjusted_swap/swap_enforces_fee_adjusted_invariant",
+          "native_tool_calls": 19,
+          "executed_tool_results": 19,
+          "editable_changed": true,
+          "verifier_score": "0/1",
+          "calls": [
+            {
+              "index": 1,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/harness/TASK_SUMMARY.md"
+              },
+              "result": {
+                "status": "error_signal",
+                "excerpt": "<tool_error>read_file failed: File not found at: [WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/harness/TASK_SUMMARY.md</tool_error>",
+                "error_signals": [
+                  "explicit_tool_error"
+                ]
+              }
+            },
+            {
+              "index": 2,
+              "tool": "bash",
+              "arguments": {
+                "command": "find [WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant -type f | head -50"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 3,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/harness/TASK_SUMMARY.md"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 4,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/Benchmark/Generated/UniswapV2/PairFeeAdjustedSwap/Tasks/SwapEnforcesFeeAdjustedInvariant.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 5,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/Benchmark/Cases/UniswapV2/PairFeeAdjustedSwap/Specs.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 6,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/Benchmark/Cases/UniswapV2/PairFeeAdjustedSwap/Contract.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 7,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/Benchmark/Grindset.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 8,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/Benchmark/Grindset/Core.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 9,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/Benchmark/Grindset/Monad.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 10,
+              "tool": "lean-lsp_lean_goal",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/Benchmark/Generated/UniswapV2/PairFeeAdjustedSwap/Tasks/SwapEnforcesFeeAdjustedInvariant.lean",
+                "line": 22
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 11,
+              "tool": "edit",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/Benchmark/Generated/UniswapV2/PairFeeAdjustedSwap/Tasks/SwapEnforcesFeeAdjustedInvariant.lean",
+                "old_string": "  exact ?_",
+                "new_string": "  simp only [grind_norm]\n  exact hK"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 12,
+              "tool": "lean-lsp_lean_diagnostic_messages",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/Benchmark/Generated/UniswapV2/PairFeeAdjustedSwap/Tasks/SwapEnforcesFeeAdjustedInvariant.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 13,
+              "tool": "lean-lsp_lean_build",
+              "arguments": {
+                "lean_project_path": "[WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace",
+                "output_lines": 30
+              },
+              "result": {
+                "status": "error_signal",
+                "excerpt": "ok: True\nserver: stdio:[BENCHMARK_ROOT]/bin/lean-lsp-mcp\ntool: lean_build\ntext: None\nstructured: {'success': False, 'output': '✖ [0/0] Running job computation\\nerror: no such file or directory (error code: 2)\\n  file: [WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/Benchmark.lean\\nS...[truncated]",
+                "error_signals": [
+                  "no_such_file"
+                ]
+              }
+            },
+            {
+              "index": 14,
+              "tool": "bash",
+              "arguments": {
+                "command": "find [WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/Benchmark -type f -name \"*.lean\" | sort"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 15,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/lakefile.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 16,
+              "tool": "bash",
+              "arguments": {
+                "command": "ls [WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/.lake/build/lib/lean/ 2>/dev/null | head -20"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 17,
+              "tool": "bash",
+              "arguments": {
+                "command": "find [WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace -name \"Benchmark.lean\" -type f 2>/dev/null"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 18,
+              "tool": "bash",
+              "arguments": {
+                "command": "cat [WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/lake-manifest.json 2>/dev/null | head -30"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 19,
+              "tool": "bash",
+              "arguments": {
+                "command": "cd [WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace && lake build 2>&1 | tail -30",
+                "timeout": "120"
+              },
+              "result": {
+                "status": "error_signal",
+                "excerpt": "command: cd [WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace && lake build 2>&1 | tail -30\nstdout: ✖ [0/0] Running job computation\nerror: no such file or directory (error code: 2)\n  file: [WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pa...[truncated]",
+                "error_signals": [
+                  "no_such_file",
+                  "error_line"
+                ]
+              }
+            }
+          ],
+          "explicit_tool_errors": 1,
+          "error_bearing_results": 3
+        }
+      ],
+      "totals": {
+        "native_tool_calls": 60,
+        "executed_tool_results": 60,
+        "editable_files_changed": 1,
+        "explicit_tool_errors": 2,
+        "error_bearing_results": 6
+      }
+    },
+    "local-nvfp4-fixed": {
+      "model": "mistralai/Leanstral-1.5-119B-A6B via Frosty40 NVFP4 GGUF",
+      "score": "0/3",
+      "tasks": [
+        {
+          "task_ref": "1inch/xycswap_curve_safety/quote_exact_in_curve_safety",
+          "native_tool_calls": 22,
+          "executed_tool_results": 22,
+          "editable_changed": false,
+          "verifier_score": "0/1",
+          "calls": [
+            {
+              "index": 1,
+              "tool": "bash",
+              "arguments": {
+                "command": "cd [WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace && ls -la"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 2,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/harness/TASK_SUMMARY.md"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 3,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/harness/check.sh"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 4,
+              "tool": "bash",
+              "arguments": {
+                "command": "cd [WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace && find . -name \"*.lean\" -type f 2>/dev/null"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 5,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/Benchmark/Cases/OneInch/XYCSwapCurveSafety/Contract.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 6,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/cases/1inch/xycswap_curve_safety/verity/Contract.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 7,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/cases/1inch/xycswap_curve_safety/verity/Specs.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 8,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/Benchmark/Cases/OneInch/XYCSwapCurveSafety/Tasks/QuoteExactInCurveSafety.lean"
+              },
+              "result": {
+                "status": "error_signal",
+                "excerpt": "<tool_error>read_file failed: File not found at: [WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/Benchmark/Cases/OneInch/XYCSwapCurveSafety/Tasks/QuoteExactInCurveSafety.lean</tool_error>",
+                "error_signals": [
+                  "explicit_tool_error"
+                ]
+              }
+            },
+            {
+              "index": 9,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/Benchmark/Cases/OneInch/XYCSwapCurveSafety/Specs.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 10,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/workspace/cases/1inch/xycswap_curve_safety/verity/Specs.lean"
+              },
+              "result": {
+                "status": "error_signal",
+                "excerpt": "<tool_error>read_file failed: File not found at: [WORKSPACE]/workspace/cases/1inch/xycswap_curve_safety/verity/Specs.lean</tool_error>",
+                "error_signals": [
+                  "explicit_tool_error"
+                ]
+              }
+            },
+            {
+              "index": 11,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/cases/1inch/xycswap_curve_safety/verity/Specs.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 12,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/cases/1inch/xycswap_curve_safety/verity/Specs.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 13,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/Benchmark/Grindset/ArithCore.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 14,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/Benchmark/Grindset/ArithCore.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 15,
+              "tool": "bash",
+              "arguments": {
+                "command": "cd [WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace && lake build Benchmark.Cases.OneInch.XYCSwapCurveSafety.Tasks.QuoteExactInCurveSafety 2>&1 | tail -50",
+                "timeout": 300
+              },
+              "result": {
+                "status": "error_signal",
+                "excerpt": "command: cd [WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace && lake build Benchmark.Cases.OneInch.XYCSwapCurveSafety.Tasks.QuoteExactInCurveSafety 2>&1 | tail -50\nstdout: ✖ [2/2] Running Benchmark.Cases.OneInch.XYCSwapCurveSafety.Tasks.QuoteExactInCurveSafety\nerror: no such file or directory (error code: ...[truncated]",
+                "error_signals": [
+                  "no_such_file",
+                  "error_line"
+                ]
+              }
+            },
+            {
+              "index": 16,
+              "tool": "bash",
+              "arguments": {
+                "command": "cd [WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace && lake build Benchmark.Cases.OneInch.XYCSwapCurveSafety 2>&1 | tail -50",
+                "timeout": 300
+              },
+              "result": {
+                "status": "error_signal",
+                "excerpt": "command: cd [WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace && lake build Benchmark.Cases.OneInch.XYCSwapCurveSafety 2>&1 | tail -50\nstdout: ✖ [2/2] Running Benchmark.Cases.OneInch.XYCSwapCurveSafety\nerror: no such file or directory (error code: 2)\n  file: [WORKSPACE]/results/vibe-ablation/20260719T213101...[truncated]",
+                "error_signals": [
+                  "no_such_file",
+                  "error_line"
+                ]
+              }
+            },
+            {
+              "index": 17,
+              "tool": "bash",
+              "arguments": {
+                "command": "cd [WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace && lake build Benchmark.Cases.OneInch.XYCSwapCurveSafety.Compile 2>&1 | tail -50",
+                "timeout": 300
+              },
+              "result": {
+                "status": "error_signal",
+                "excerpt": "command: cd [WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace && lake build Benchmark.Cases.OneInch.XYCSwapCurveSafety.Compile 2>&1 | tail -50\nstdout: \nNote: This linter can be disabled with `set_option linter.dupNamespace false`\nwarning: Benchmark/Cases/OneInch/XYCSwapCurveSafety/Contract.lean:40:11: The n...[truncated]",
+                "error_signals": [
+                  "no_such_file",
+                  "error_line"
+                ]
+              }
+            },
+            {
+              "index": 18,
+              "tool": "bash",
+              "arguments": {
+                "command": "cd [WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace && lake build Benchmark.Cases.OneInch.XYCSwapCurveSafety.Compile 2>&1 | tail -50",
+                "timeout": 300
+              },
+              "result": {
+                "status": "error_signal",
+                "excerpt": "command: cd [WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace && lake build Benchmark.Cases.OneInch.XYCSwapCurveSafety.Compile 2>&1 | tail -50\nstdout: \nNote: This linter can be disabled with `set_option linter.dupNamespace false`\nwarning: Benchmark/Cases/OneInch/XYCSwapCurveSafety/Contract.lean:40:11: The n...[truncated]",
+                "error_signals": [
+                  "no_such_file",
+                  "error_line"
+                ]
+              }
+            },
+            {
+              "index": 19,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/cases/1inch/xycswap_curve_safety/verity/Contract.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 20,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/Benchmark/Cases/OneInch/XYCSwapCurveSafety/Contract.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 21,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace/cases/1inch/xycswap_curve_safety/verity/Specs.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 22,
+              "tool": "bash",
+              "arguments": {
+                "command": "cd [WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace && lake build Benchmark.Cases.OneInch.XYCSwapCurveSafety.Compile 2>&1 | tail -50",
+                "timeout": 300
+              },
+              "result": {
+                "status": "error_signal",
+                "excerpt": "command: cd [WORKSPACE]/results/vibe-ablation/20260719T213101Z-vibe-2.21.0-leanstral15-1inch__xycswap_curve_safety__quote_exact_in_curve_safety/workspace && lake build Benchmark.Cases.OneInch.XYCSwapCurveSafety.Compile 2>&1 | tail -50\nstdout: \nNote: This linter can be disabled with `set_option linter.dupNamespace false`\nwarning: Benchmark/Cases/OneInch/XYCSwapCurveSafety/Contract.lean:40:11: The n...[truncated]",
+                "error_signals": [
+                  "no_such_file",
+                  "error_line"
+                ]
+              }
+            }
+          ],
+          "explicit_tool_errors": 2,
+          "error_bearing_results": 7
+        },
+        {
+          "task_ref": "openzeppelin/erc4626_virtual_offset_deposit/deposit_redeem_round_trip_bound",
+          "native_tool_calls": 14,
+          "executed_tool_results": 14,
+          "editable_changed": false,
+          "verifier_score": "0/1",
+          "calls": [
+            {
+              "index": 1,
+              "tool": "skill",
+              "arguments": {
+                "name": "vibe"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 2,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "/tmp/vibe-scratchpad-c15b0c33-uugrxbup/goal.md"
+              },
+              "result": {
+                "status": "error_signal",
+                "excerpt": "<tool_error>read_file failed: File not found at: /tmp/vibe-scratchpad-c15b0c33-uugrxbup/goal.md</tool_error>",
+                "error_signals": [
+                  "explicit_tool_error"
+                ]
+              }
+            },
+            {
+              "index": 3,
+              "tool": "bash",
+              "arguments": {
+                "command": "find /tmp/vibe-scratchpad-c15b0c33-uugrxbup -type f -name \"*.md\" 2>/dev/null | head -5"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 4,
+              "tool": "bash",
+              "arguments": {
+                "command": "ls -la /tmp/vibe-scratchpad-c15b0c33-uugrxbup/ 2>/dev/null"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 5,
+              "tool": "bash",
+              "arguments": {
+                "command": "ls -la /workspace/ 2>/dev/null"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 6,
+              "tool": "bash",
+              "arguments": {
+                "command": "find /workspace -type f -name \"TASK_SUMMARY.md\" 2>/dev/null"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 7,
+              "tool": "bash",
+              "arguments": {
+                "command": "find /workspace -type f -name \"TASK_SUMMARY.md\" -path \"*erc4626_virtual_offset*\" -path \"*deposit_redeem*\" 2>/dev/null"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 8,
+              "tool": "bash",
+              "arguments": {
+                "command": "ls -la \"[WORKSPACE]/results/vibe-ablation/20260719T214152Z-vibe-2.21.0-leanstral15-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/workspace\""
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 9,
+              "tool": "bash",
+              "arguments": {
+                "command": "find \"[WORKSPACE]/results/vibe-ablation/20260719T214152Z-vibe-2.21.0-leanstral15-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/workspace\" -type f -name \"*.md\" 2>/dev/null"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 10,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-ablation/20260719T214152Z-vibe-2.21.0-leanstral15-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/workspace/harness/TASK_SUMMARY.md"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 11,
+              "tool": "bash",
+              "arguments": {
+                "command": "find \"[WORKSPACE]/results/vibe-ablation/20260719T214152Z-vibe-2.21.0-leanstral15-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/workspace\" -type f 2>/dev/null"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 12,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-ablation/20260719T214152Z-vibe-2.21.0-leanstral15-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/workspace/Benchmark/Cases/OpenZeppelin/ERC4626VirtualOffsetDeposit/Contract.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 13,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-ablation/20260719T214152Z-vibe-2.21.0-leanstral15-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/workspace/Benchmark/Cases/OpenZeppelin/ERC4626VirtualOffsetDeposit/Specs.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 14,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-ablation/20260719T214152Z-vibe-2.21.0-leanstral15-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/workspace/Benchmark/Grindset/ArithCore.lean"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            }
+          ],
+          "explicit_tool_errors": 1,
+          "error_bearing_results": 1
+        },
+        {
+          "task_ref": "uniswap_v2/pair_fee_adjusted_swap/swap_enforces_fee_adjusted_invariant",
+          "native_tool_calls": 27,
+          "executed_tool_results": 27,
+          "editable_changed": false,
+          "verifier_score": "0/1",
+          "calls": [
+            {
+              "index": 1,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-ablation/20260719T214358Z-vibe-2.21.0-leanstral15-uniswap_v2/pair_fee_adjusted_swap/swap_enforces_fee_adjusted_invariant/harness/TASK_SUMMARY.md"
+              },
+              "result": {
+                "status": "error_signal",
+                "excerpt": "<tool_error>read_file failed: File not found at: [WORKSPACE]/results/vibe-ablation/20260719T214358Z-vibe-2.21.0-leanstral15-uniswap_v2/pair_fee_adjusted_swap/swap_enforces_fee_adjusted_invariant/harness/TASK_SUMMARY.md</tool_error>",
+                "error_signals": [
+                  "explicit_tool_error"
+                ]
+              }
+            },
+            {
+              "index": 2,
+              "tool": "bash",
+              "arguments": {
+                "command": "ls [WORKSPACE]/results/vibe-ablation/20260719T214358Z-vibe-2.21.0-leanstral15-uniswap_v2/pair_fee_adjusted_swap/swap_enforces_fee_adjusted_invariant/implementation/"
+              },
+              "result": {
+                "status": "error_signal",
+                "excerpt": "<tool_error>bash failed: Command failed: 'ls [WORKSPACE]/results/vibe-ablation/20260719T214358Z-vibe-2.21.0-leanstral15-uniswap_v2/pair_fee_adjusted_swap/swap_enforces_fee_adjusted_invariant/implementation/'\nReturn code: 2\nStderr: /usr/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)\nls: cannot access '[WORKSPACE]/results/vibe-ablation/20260719T214358Z-vibe-2.21.0-leanstral...[truncated]",
+                "error_signals": [
+                  "explicit_tool_error",
+                  "no_such_file"
+                ]
+              }
+            },
+            {
+              "index": 3,
+              "tool": "bash",
+              "arguments": {
+                "command": "ls [WORKSPACE]/results/vibe-ablation/20260719T214358Z-vibe-2.21.0-leanstral15-uniswap_v2/ 2>/dev/null || echo \"NOT FOUND\""
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 4,
+              "tool": "bash",
+              "arguments": {
+                "command": "ls [BENCHMARK_ROOT]/ 2>/dev/null || echo \"NOT FOUND\""
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 5,
+              "tool": "bash",
+              "arguments": {
+                "command": "ls [WORKSPACE]/ 2>/dev/null || echo \"NOT FOUND\""
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 6,
+              "tool": "bash",
+              "arguments": {
+                "command": "find [BENCHMARK_ROOT] -type d -name \"implementation\" 2>/dev/null | head -5"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 7,
+              "tool": "bash",
+              "arguments": {
+                "command": "find [BENCHMARK_ROOT] -type d -name \"harness\" 2>/dev/null | head -5"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 8,
+              "tool": "bash",
+              "arguments": {
+                "command": "ls [WORKSPACE]/harness 2>/dev/null | head -10"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 9,
+              "tool": "bash",
+              "arguments": {
+                "command": "find [BENCHMARK_ROOT] -type d -name \"harness\" 2>/dev/null"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 10,
+              "tool": "bash",
+              "arguments": {
+                "command": "find [BENCHMARK_ROOT] -type d -name \"implementation\" 2>/dev/null"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 11,
+              "tool": "bash",
+              "arguments": {
+                "command": "ls [WORKSPACE]/results/vibe-official/20260719T112010Z-vibe-2.21.0-labs-leanstral-1-5-openzeppelin__erc4626_virtual_offset_deposit__deposit_redeem_round_trip_bound/ 2>/dev/null"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 12,
+              "tool": "bash",
+              "arguments": {
+                "command": "find [BENCHMARK_ROOT] -path \"*/harness\" -type d 2>/dev/null"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 13,
+              "tool": "bash",
+              "arguments": {
+                "command": "find [BENCHMARK_ROOT] -path \"*/implementation\" -type d 2>/dev/null"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 14,
+              "tool": "bash",
+              "arguments": {
+                "command": "find [BENCHMARK_ROOT] -path \"*/harness\" -type d 2>/dev/null"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 15,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/harness/TASK_SUMMARY.md"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 16,
+              "tool": "bash",
+              "arguments": {
+                "command": "find [BENCHMARK_ROOT] -path \"*/pair_fee_adjusted_swap\" -type d 2>/dev/null"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 17,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/cases/uniswap_v2/pair_fee_adjusted_swap/Tasks/SwapEnforcesFeeAdjustedInvariant.lean"
+              },
+              "result": {
+                "status": "error_signal",
+                "excerpt": "<tool_error>read_file failed: File not found at: [WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/cases/uniswap_v2/pair_fee_adjusted_swap/Tasks/SwapEnforcesFeeAdjustedInvariant.lean</tool_error>",
+                "error_signals": [
+                  "explicit_tool_error"
+                ]
+              }
+            },
+            {
+              "index": 18,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral15-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/cases/uniswap_v2/pair_fee_adjusted_swap/Specs.lean"
+              },
+              "result": {
+                "status": "error_signal",
+                "excerpt": "<tool_error>read_file failed: File not found at: [WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral15-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/cases/uniswap_v2/pair_fee_adjusted_swap/Specs.lean</tool_error>",
+                "error_signals": [
+                  "explicit_tool_error"
+                ]
+              }
+            },
+            {
+              "index": 19,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T111625Z-vibe-2.21.0-labs-leanstral15-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/cases/uniswap_v2/pair_fee_adjusted_swap/Specs.lean"
+              },
+              "result": {
+                "status": "error_signal",
+                "excerpt": "<tool_error>read_file failed: File not found at: [WORKSPACE]/results/vibe-official/20260719T111625Z-vibe-2.21.0-labs-leanstral15-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/cases/uniswap_v2/pair_fee_adjusted_swap/Specs.lean</tool_error>",
+                "error_signals": [
+                  "explicit_tool_error"
+                ]
+              }
+            },
+            {
+              "index": 20,
+              "tool": "bash",
+              "arguments": {
+                "command": "find [BENCHMARK_ROOT] -path \"*/pair_fee_adjusted_swap*\" -name \"*.lean\" 2>/dev/null | head -20"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 21,
+              "tool": "bash",
+              "arguments": {
+                "command": "find [BENCHMARK_ROOT] -path \"*/pair_fee_adjusted_swap*\" -type d 2>/dev/null"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 22,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/cases/uniswap_v2/pair_fee_adjusted_swap/Tasks/SwapEnforcesFeeAdjustedInvariant.lean"
+              },
+              "result": {
+                "status": "error_signal",
+                "excerpt": "<tool_error>read_file failed: File not found at: [WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/cases/uniswap_v2/pair_fee_adjusted_swap/Tasks/SwapEnforcesFeeAdjustedInvariant.lean</tool_error>",
+                "error_signals": [
+                  "explicit_tool_error"
+                ]
+              }
+            },
+            {
+              "index": 23,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T071257Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/cases/uniswap_v2/pair_fee_adjusted_swap/Tasks/SwapEnforcesFeeAdjustedInvariant.lean"
+              },
+              "result": {
+                "status": "error_signal",
+                "excerpt": "<tool_error>read_file failed: File not found at: [WORKSPACE]/results/vibe-official/20260719T071257Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/cases/uniswap_v2/pair_fee_adjusted_swap/Tasks/SwapEnforcesFeeAdjustedInvariant.lean</tool_error>",
+                "error_signals": [
+                  "explicit_tool_error"
+                ]
+              }
+            },
+            {
+              "index": 24,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T071257Z-vibe-2.21.0-labs-leanstral-15-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/cases/uniswap_v2/pair_fee_adjusted_swap/Tasks/SwapEnforcesFeeAdjustedInvariant.lean"
+              },
+              "result": {
+                "status": "error_signal",
+                "excerpt": "<tool_error>read_file failed: File not found at: [WORKSPACE]/results/vibe-official/20260719T071257Z-vibe-2.21.0-labs-leanstral-15-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/cases/uniswap_v2/pair_fee_adjusted_swap/Tasks/SwapEnforcesFeeAdjustedInvariant.lean</tool_error>",
+                "error_signals": [
+                  "explicit_tool_error"
+                ]
+              }
+            },
+            {
+              "index": 25,
+              "tool": "bash",
+              "arguments": {
+                "command": "find [BENCHMARK_ROOT] -path \"*/pair_fee_adjusted_swap*\" -name \"SwapEnforcesFeeAdjustedInvariant.lean\" 2>/dev/null"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 26,
+              "tool": "bash",
+              "arguments": {
+                "command": "find [BENCHMARK_ROOT] -path \"*/pair_fee_adjusted_swap*\" -name \"*.lean\" 2>/dev/null | head -20"
+              },
+              "result": {
+                "status": "ok",
+                "error_signals": []
+              }
+            },
+            {
+              "index": 27,
+              "tool": "read_file",
+              "arguments": {
+                "file_path": "[WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/pair_fee_adjusted_swap/Tasks/SwapEnforcesFeeAdjustedInvariant.lean"
+              },
+              "result": {
+                "status": "error_signal",
+                "excerpt": "<tool_error>read_file failed: File not found at: [WORKSPACE]/results/vibe-official/20260719T112120Z-vibe-2.21.0-labs-leanstral-1-5-uniswap_v2__pair_fee_adjusted_swap__swap_enforces_fee_adjusted_invariant/workspace/pair_fee_adjusted_swap/Tasks/SwapEnforcesFeeAdjustedInvariant.lean</tool_error>",
+                "error_signals": [
+                  "explicit_tool_error"
+                ]
+              }
+            }
+          ],
+          "explicit_tool_errors": 9,
+          "error_bearing_results": 9
+        }
+      ],
+      "totals": {
+        "native_tool_calls": 63,
+        "executed_tool_results": 63,
+        "editable_files_changed": 0,
+        "explicit_tool_errors": 12,
+        "error_bearing_results": 17
+      }
+    }
+  }
+}
